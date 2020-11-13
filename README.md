@@ -19,8 +19,9 @@ This repository is a community driven library for common rules that can be used 
 ## Smart Filters
 | Rule | Description |
 | ---- | ----------- |
-| [fat-namespaces](library/fat-namespaces) | Identifies namespaces that are using large chunk of total cluster CPU and Memory resources. |
-| [stateful-application](library/stateful-application) | Identifies applications that are exposed using Ingress. |
+| [large-namespace](library/large-namespace) | Identifies namespaces that are using large chunk of total cluster CPU and Memory resources. |
+| [public-application](library/public-application) | Identifies applications that are exposed using Ingress. |
+| [stateful-application](library/stateful-application) | Identifies stateful applications that have persistent volumes attached. |
 | [stateful-public-application](library/stateful-public-application) | Identifies applications that are exposed using Ingress and also have Persistent Volume Claims attached. |
 
 ## Contributing
