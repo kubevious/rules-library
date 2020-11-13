@@ -1,4 +1,4 @@
-# Fat Namespaces
+# Large Namespace
 Identifies namespaces that are using large chunk of total cluster CPU and Memory resources.
 
 ## Target Script
@@ -14,5 +14,5 @@ select('Namespace')
 
 ## Rule Script
 ```js
-mark('fat-namespace')
+mark('large-namespace')
 ```
