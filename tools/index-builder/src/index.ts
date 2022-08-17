@@ -95,7 +95,7 @@ function buildIndex(rules : ExtractedRule[])
     
     console.log(rulesIndex);
 
-    writeFileSync(libraryIndexPath, JSON.stringify(rulesIndex, null, 4));
+    writeFileData(libraryIndexPath, JSON.stringify(rulesIndex, null, 4));
 }
 
 buildIndex(myRules);
@@ -110,7 +110,7 @@ function buildBundle(rule : ExtractedRule)
         ruleScript: readFileSync(rule.ruleScriptPath).toString('utf8')
     }
 
-    writeFileSync(rule.bundlePath, JSON.stringify(bundle, null, 4));
+    writeFileData(rule.bundlePath, JSON.stringify(bundle, null, 4));
 }
 
 function buildBundles(rules : ExtractedRule[])
@@ -143,7 +143,7 @@ function buildReadme(rule : ExtractedRule)
     readme += readFileSync(rule.ruleScriptPath).toString('utf8');
     readme += `\n\`\`\`\n`;
 
-    writeFileSync(rule.readmePath, readme);
+    writeFileData(rule.readmePath, readme);
 }
 
 function buildReadmes(rules : ExtractedRule[])
@@ -155,3 +155,10 @@ function buildReadmes(rules : ExtractedRule[])
     }
 }
 buildReadmes(myRules);
+
+
+
+function writeFileData(filePath: string, contents: string)
+{
+    writeFileSync(filePath, contents);
+}
