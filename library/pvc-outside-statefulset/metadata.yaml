@@ -1,0 +1,3 @@
+name: Persistent Volume Claims Outside of StatefulSets
+description: Checks for PersistentVolumeClaims to configured for Pods managed by StatefulSets.
+

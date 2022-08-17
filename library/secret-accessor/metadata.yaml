@@ -1,0 +1,2 @@
+name: Secret Accessors
+description: Identifies applications (outside of kube-system) that access Kubernets secrets.
