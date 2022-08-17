@@ -1,5 +1,6 @@
 # Image Latest Tag Check
 **ID:** best-practices/image-latest-tag-check
+
 **Description:** Raises errors on container images that have **latest** tag.
 
 ## Target Script

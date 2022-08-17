@@ -129,10 +129,8 @@ function buildReadme(rule : ExtractedRule)
 {
     let readme : string  = '';
     readme += `# ${rule.metadata.name}\n`;
-    readme += `**ID:** ${rule.id}\n`;
-    readme += `**Description:** ${rule.metadata.description}\n`;
-
-    readme += `\n`;
+    readme += `**ID:** ${rule.id}\n\n`;
+    readme += `**Description:** ${rule.metadata.description}\n\n`;
 
     readme += `## Target Script\n`;
     readme += `\`\`\`js\n`;

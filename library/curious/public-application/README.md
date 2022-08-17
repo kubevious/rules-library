@@ -1,5 +1,6 @@
 # Public Application
 **ID:** curious/public-application
+
 **Description:** Identifies applications that are exposed using Ingress.
 
 ## Target Script

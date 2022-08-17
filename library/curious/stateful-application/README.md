@@ -1,5 +1,6 @@
 # Stateful Application
 **ID:** curious/stateful-application
+
 **Description:** Identifies stateful applications that have persistent volumes attached.
 
 ## Target Script
