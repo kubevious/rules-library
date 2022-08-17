@@ -1,5 +1,6 @@
 # Stateful Application
-Identifies stateful applications that have persistent volumes attached.
+**ID:** curious/stateful-application
+**Description:** Identifies stateful applications that have persistent volumes attached.
 
 ## Target Script
 ```js
@@ -8,8 +9,8 @@ select('Application')
         return item.hasDescendants('Persistent Volume Claim') || item.hasDescendants('Persistent Volume');
     })
 ```
-
 ## Rule Script
 ```js
 mark("stateful-application")
+
 ```

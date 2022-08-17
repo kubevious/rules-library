@@ -122,3 +122,38 @@ function buildBundles(rules : ExtractedRule[])
     }
 }
 buildBundles(myRules);
+
+
+
+function buildReadme(rule : ExtractedRule)
+{
+    let readme : string  = '';
+    readme += `# ${rule.metadata.name}\n`;
+    readme += `**ID:** ${rule.id}\n`;
+    readme += `**Description:** ${rule.metadata.description}\n`;
+
+    readme += `\n`;
+
+    readme += `## Target Script\n`;
+    readme += `\`\`\`js\n`;
+    readme += readFileSync(rule.targetScriptPath).toString('utf8');
+    readme += `\n\`\`\`\n`;
+
+
+    readme += `## Rule Script\n`;
+    readme += `\`\`\`js\n`;
+    readme += readFileSync(rule.ruleScriptPath).toString('utf8');
+    readme += `\n\`\`\`\n`;
+
+    writeFileSync(rule.readmePath, readme);
+}
+
+function buildReadmes(rules : ExtractedRule[])
+{
+    console.log(">>> BUILD README.MD");
+    for(const rule of rules)
+    {
+        buildReadme(rule);
+    }
+}
+buildReadmes(myRules);

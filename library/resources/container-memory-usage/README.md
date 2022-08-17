@@ -1,11 +1,11 @@
 # Container Memory Usage
-Checks for container memory request to be set and marks containers as high and medium memory users.
+**ID:** resources/container-memory-usage
+**Description:** Checks for container memory request to be set and marks containers as high and medium memory users.
 
 ## Target Script
 ```js
 select('Container')
 ```
-
 ## Rule Script
 ```js
 var value = item.getProperties('resources')['memory request'];

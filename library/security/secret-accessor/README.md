@@ -1,5 +1,6 @@
 # Secret Accessors
-Identifies applications (outside of kube-system) that access Kubernets secrets.
+**ID:** security/secret-accessor
+**Description:** Identifies applications (outside of kube-system) that access Kubernets secrets.
 
 ## Target Script
 ```js
@@ -21,7 +22,6 @@ select('Namespace')
         return false;
     })
 ```
-
 ## Rule Script
 ```js
 mark('secret-accessors')

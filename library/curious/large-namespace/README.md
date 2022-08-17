@@ -1,5 +1,6 @@
 # Large Namespace
-Identifies namespaces that are using large chunk of total cluster CPU and Memory resources.
+**ID:** curious/large-namespace
+**Description:** Identifies namespaces that are using large chunk of total cluster CPU and Memory resources.
 
 ## Target Script
 ```js
@@ -11,8 +12,8 @@ select('Namespace')
                (unit.percentage(memory) >= 40);
     })
 ```
-
 ## Rule Script
 ```js
 mark('large-namespace')
+
 ```

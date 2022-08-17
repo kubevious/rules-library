@@ -1,5 +1,6 @@
 # Persistent Volume Claims Outside of StatefulSets
-Checks for PersistentVolumeClaims to configured for Pods managed by StatefulSets.
+**ID:** best-practices/pvc-outside-statefulset
+**Description:** Checks for PersistentVolumeClaims to configured for Pods managed by StatefulSets.
 
 ## Target Script
 ```js
@@ -9,8 +10,7 @@ select('Pod')
     })
 .child('Persistent Volume Claim')
 ```
-
 ## Rule Script
 ```js
-warning('Using a PVC on Pods that are not launced by StatefulSet.')
+warning('Using a PVC on Pods that are not launched by StatefulSet.')
 ```
