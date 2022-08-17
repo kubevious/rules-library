@@ -1,0 +1,7 @@
+{
+    "id": "resources/container-memory-usage",
+    "name": "Container Memory Usage",
+    "description": "Checks for container memory request to be set and marks containers as high and medium memory users.",
+    "targetScript": "select('Container')",
+    "ruleScript": "var value = item.getProperties('resources')['memory request'];\nif (value) {\n    if (unit.memory(value).in('gb') >= 4) {\n        mark('high-memory-user');\n    }\n    else if (unit.memory(value).in('mb') >= 600) {\n        mark('medium-memory-user');\n    }\n} else {\n    warning('Memory request is not set. This is not a good practice. Please correct ASAP.')\n}"
+}

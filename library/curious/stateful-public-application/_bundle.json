@@ -1,0 +1,7 @@
+{
+    "id": "curious/stateful-public-application",
+    "name": "Stateful Public Application",
+    "description": "Identifies applications that are exposed using Ingress and also have Persistent Volume Claims attached.",
+    "targetScript": "select('Application')\n    .filter(({item}) => {\n        return item.hasDescendants('Ingress') && item.hasDescendants('Persistent Volume Claim');\n    })",
+    "ruleScript": "mark(\"stateful-public-application\")\n"
+}

@@ -1,0 +1,7 @@
+{
+    "id": "curious/large-namespace",
+    "name": "Large Namespace",
+    "description": "Identifies namespaces that are using large chunk of total cluster CPU and Memory resources.",
+    "targetScript": "select('Namespace')\n    .filter(({item}) => {\n        const cpu = item.getProperties('cluster-consumption').cpu;\n        const memory = item.getProperties('cluster-consumption').memory;\n        return (unit.percentage(cpu) >= 40) ||\n               (unit.percentage(memory) >= 40);\n    })",
+    "ruleScript": "mark('large-namespace')\n"
+}
