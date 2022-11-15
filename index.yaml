@@ -1,0 +1,12 @@
+apiVersion: kubevious.io/v1alpha1
+kind: Library
+metadata:
+  name: community
+spec:
+  rules: 
+    - name: certificate-check
+      path: rules/cert-manager/certificate-check.yaml
+    - name: service-selector-cached
+      path: rules/k8s/service/service-selector-cached.yaml
+    - name: istio-gateway-host-check
+      path: rules/istio/gateway-host-check.yaml
