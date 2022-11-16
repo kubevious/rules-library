@@ -6,6 +6,8 @@ spec:
   rules:
   - name: certificate-check
     path: rules/cert-manager/certificate-check.yaml
+  - name: deployment-env-from-check
+    path: rules/k8s/deployment/env-from-check.yaml
   - name: istio-gateway-host-check
     path: rules/istio/gateway-host-check.yaml
   - name: service-selector-cached
