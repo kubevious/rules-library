@@ -1,0 +1,26 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: service-selector-reference
+spec:
+  target: |
+    ApiVersion('v1')
+      .Kind('Service')
+  cache: |
+    cache.apps = helpers.newLabelLookupDict();
+    
+    for(const app of ApiVersion('apps/v1')
+                       .Kind("Deployment")
+                       .many())
+    {
+      cache.apps.add(app, app.config.spec?.template?.metadata?.labels);
+    }
+  rule: |
+    if (!config.spec.selector) {
+      return;
+    }
+
+    if (cache.apps.resolveSelector(config.spec.selector).length == 0)
+    {
+      error("Could not find Applications for Service");
+    }

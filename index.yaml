@@ -6,9 +6,13 @@ spec:
   rules:
   - name: certificate-check
     path: rules/cert-manager/certificate-check.yaml
-  - name: deployment-env-from-check
-    path: rules/k8s/deployment/env-from-check.yaml
+  - name: container-env-from-config-map-ref
+    path: rules/k8s/container/env-from-config-map-ref.yaml
+  - name: container-env-from-secret-ref
+    path: rules/k8s/container/env-from-secret-ref.yaml
+  - name: container-latest-image
+    path: rules/k8s/container/latest-image.yaml
   - name: istio-gateway-host-check
     path: rules/istio/gateway-host-check.yaml
-  - name: service-selector-cached
-    path: rules/k8s/service/service-selector-cached.yaml
+  - name: service-selector-reference
+    path: rules/k8s/service/service-selector-reference.yaml
