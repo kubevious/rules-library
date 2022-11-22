@@ -6,13 +6,13 @@ spec:
   summary: |
     Validate Istio VirtualService to IstioGateway reference.
   target: |
-    ApiVersion('networking.istio.io/v1beta1')
+    Api('networking.istio.io')
       .Kind('VirtualService')
   rule: |
     for(let gatewayName of (config.spec?.gateways || []))
     {
       let gateway = 
-            ApiVersion('networking.istio.io/v1beta1')
+            Api('networking.istio.io')
               .Kind('Gateway')
               .name(gatewayName)
               .single();
