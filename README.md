@@ -65,7 +65,7 @@ Validate Service to PodSpec label selector reference.
 
 ## Contributing
 To submit your rules to the library follow the steps:
-1. Find the right place for the rule under [rules/](rules/) directory.
+1. Find the right place for the rule under root directory.
 2. Index the library using:
 ```sh
 $ kubevious index-library .
