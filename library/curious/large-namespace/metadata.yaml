@@ -1,3 +1,0 @@
-name: Large Namespace
-description: Identifies namespaces that are using large chunk of total cluster CPU and Memory resources.
-

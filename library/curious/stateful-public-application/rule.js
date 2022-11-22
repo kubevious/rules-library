@@ -1,1 +1,0 @@
-mark("stateful-public-application")

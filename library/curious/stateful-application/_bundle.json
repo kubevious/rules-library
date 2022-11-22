@@ -1,7 +1,0 @@
-{
-    "id": "curious/stateful-application",
-    "name": "Stateful Application",
-    "description": "Identifies stateful applications that have persistent volumes attached.",
-    "targetScript": "select('Application')\n    .filter(({item}) => {\n        return item.hasDescendants('Persistent Volume Claim') || item.hasDescendants('Persistent Volume');\n    })",
-    "ruleScript": "mark(\"stateful-application\")\n"
-}

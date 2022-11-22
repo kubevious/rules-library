@@ -1,7 +1,0 @@
-{
-    "id": "curious/public-application",
-    "name": "Public Application",
-    "description": "Identifies applications that are exposed using Ingress.",
-    "targetScript": "select('Application')\n    .filter(({item}) => {\n        return item.hasDescendants('Ingress');\n    })",
-    "ruleScript": "mark(\"public-application\")\n"
-}

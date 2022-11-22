@@ -1,7 +1,0 @@
-{
-    "id": "best-practices/no-resource-limits-pods",
-    "name": "No Resource Limits Pods",
-    "description": "Identifies pods that do not have resource limits set",
-    "targetScript": "select('Pod')\n",
-    "ruleScript": "for(var container of item.config.spec.containers)\n{\n  if (!container.resources.limits)\n  {\n    warning('No resource limits set');\n  }\n}"
-}

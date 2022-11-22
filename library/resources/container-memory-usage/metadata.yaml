@@ -1,2 +1,0 @@
-name: Container Memory Usage
-description: Checks for container memory request to be set and marks containers as high and medium memory users.

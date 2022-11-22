@@ -1,13 +1,67 @@
 # Kubevious Rules Library
 
-The **rules engine** is a way to extend [Kubevious](https://github.com/kubevious/kubevious) to support organizations needing additional rules beyond the built-in checks that come with Kubevious by default (such as label mismatch, missing port, misused or overused objects, etc.). The rules engine is an extension for Kubevious to allow programmable validation and best practices enforcement for configuration and state objects in Kubernetes. In addition to raising errors and warnings, the rules engine allows for the assigning of custom markers to identify items of particular interest. Examples are: publicly accessible applications, containers that use excessive resources, overprivileged containers, and many more.
+This repository represents a library of rules for [Kubevious CLI](https://github.com/kubevious/cli) project to validate errors (typos, conflicts, misconfigurations) and violations of compliance and security best-practices in Kubernetes and related cloud-native projects.
 
-This repository is a community driven library for common rules that can be used to make Kuberentes safer to use. For detailed documentation on writing custom rules can be found [here](https://github.com/kubevious/kubevious/blob/master/docs/rules-engine.md).
+## Library Rules
 
-## Rules in this library
-[//]: <> (BEGIN_RULES_DESCRIPTION)
-[//]: <> (END_RULES_DESCRIPTION)
+[//]: # (BEGIN_RULES_DESCRIPTION)
 
+[//]: # (!!! DO NOT EDIT. AUTO-GENERATED WITH:)
+[//]: # ($ kubevious index-library .)
+[//]: # (OR PRE-COMMIT HOOK)
+[//]: # ($ kubevious install-git-hook rule-library .)
+
+### 📂 CERT-MANAGER
+📜 **[certificate-to-issuer-ref](cert-manager/certificate-to-issuer-ref.yaml)**.
+Validate CertManager Certificate to Issuer reference.
+
+
+### 📂 ISTIO
+📜 **[virtual-service-to-gateway-ref](istio/virtual-service-to-gateway-ref.yaml)**.
+Validate Istio VirtualService to IstioGateway reference.
+
+
+### 📂 K8S/CONTAINER
+📜 **[container-env-config-map-ref](k8s/container/env-config-map-ref.yaml)**.
+Validate ContainerSpec environment variable ConfigMap reference.
+
+
+📜 **[container-env-from-config-map-ref](k8s/container/env-from-config-map-ref.yaml)**.
+Validate ContainerSpec envFrom variables projection ConfigMap reference.
+
+
+📜 **[container-env-from-secret-ref](k8s/container/env-from-secret-ref.yaml)**.
+Validate ContainerSpec envFrom variables projection Secret reference.
+
+
+📜 **[container-env-secret-ref](k8s/container/env-secret-ref.yaml)**.
+Validate ContainerSpec environment variable Secret reference.
+
+
+📜 **[container-latest-image](k8s/container/latest-image.yaml)**.
+Validate ContainerSpec image to have non latest tag.
+
+
+### 📂 K8S/POD-SPEC
+📜 **[pod-spec-volume-config-map-ref](k8s/pod-spec/volume-config-map-ref.yaml)**.
+Validate PodSpec volume mount ConfigMap reference.
+
+
+📜 **[pod-spec-volume-pvc-ref](k8s/pod-spec/volume-pvc-ref.yaml)**.
+Validate PodSpec volume mount PersistentVolumeClaim reference.
+
+
+📜 **[pod-spec-volume-secret-ref](k8s/pod-spec/volume-secret-ref.yaml)**.
+Validate PodSpec volume mount Secret reference.
+
+
+### 📂 K8S/SERVICE
+📜 **[service-selector-ref](k8s/service/service-selector-ref.yaml)**.
+Validate Service to PodSpec label selector reference.
+
+
+
+[//]: # (END_RULES_DESCRIPTION)
 
 ## Contributing
 To submit your rules to the library follow the steps:

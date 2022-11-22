@@ -4,25 +4,58 @@ metadata:
   name: community
 spec:
   rules:
-  - name: certificate-check
-    path: rules/cert-manager/certificate-check.yaml
+  - name: certificate-to-issuer-ref
+    path: cert-manager/certificate-to-issuer-ref.yaml
+    category: cert-manager
+    summary: |
+      Validate CertManager Certificate to Issuer reference.
   - name: container-env-config-map-ref
-    path: rules/k8s/container/env-config-map-ref.yaml
+    path: k8s/container/env-config-map-ref.yaml
+    category: k8s/container
+    summary: |
+      Validate ContainerSpec environment variable ConfigMap reference.
   - name: container-env-from-config-map-ref
-    path: rules/k8s/container/env-from-config-map-ref.yaml
+    path: k8s/container/env-from-config-map-ref.yaml
+    category: k8s/container
+    summary: |
+      Validate ContainerSpec envFrom variables projection ConfigMap reference.
   - name: container-env-from-secret-ref
-    path: rules/k8s/container/env-from-secret-ref.yaml
+    path: k8s/container/env-from-secret-ref.yaml
+    category: k8s/container
+    summary: |
+      Validate ContainerSpec envFrom variables projection Secret reference.
   - name: container-env-secret-ref
-    path: rules/k8s/container/env-secret-ref.yaml
+    path: k8s/container/env-secret-ref.yaml
+    category: k8s/container
+    summary: |
+      Validate ContainerSpec environment variable Secret reference.
   - name: container-latest-image
-    path: rules/k8s/container/latest-image.yaml
-  - name: istio-gateway-host-check
-    path: rules/istio/gateway-host-check.yaml
+    path: k8s/container/latest-image.yaml
+    category: k8s/container
+    summary: |
+      Validate ContainerSpec image to have non latest tag.
   - name: pod-spec-volume-config-map-ref
-    path: rules/k8s/pod-spec/volume-config-map-ref.yaml
+    path: k8s/pod-spec/volume-config-map-ref.yaml
+    category: k8s/pod-spec
+    summary: |
+      Validate PodSpec volume mount ConfigMap reference.
   - name: pod-spec-volume-pvc-ref
-    path: rules/k8s/pod-spec/volume-pvc-ref.yaml
+    path: k8s/pod-spec/volume-pvc-ref.yaml
+    category: k8s/pod-spec
+    summary: |
+      Validate PodSpec volume mount PersistentVolumeClaim reference.
   - name: pod-spec-volume-secret-ref
-    path: rules/k8s/pod-spec/volume-secret-ref.yaml
-  - name: service-selector-reference
-    path: rules/k8s/service/service-selector-reference.yaml
+    path: k8s/pod-spec/volume-secret-ref.yaml
+    category: k8s/pod-spec
+    summary: |
+      Validate PodSpec volume mount Secret reference.
+  - name: service-selector-ref
+    path: k8s/service/service-selector-ref.yaml
+    category: k8s/service
+    summary: |
+      Validate Service to PodSpec label selector reference.
+  - name: virtual-service-to-gateway-ref
+    path: istio/virtual-service-to-gateway-ref.yaml
+    category: istio
+    summary: |
+      Validate Istio VirtualService to IstioGateway reference.

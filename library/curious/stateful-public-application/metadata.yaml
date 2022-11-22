@@ -1,3 +1,0 @@
-name: Stateful Public Application
-description: Identifies applications that are exposed using Ingress and also have Persistent Volume Claims attached.
-

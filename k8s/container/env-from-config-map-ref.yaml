@@ -1,0 +1,30 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: container-env-from-config-map-ref
+spec:
+  summary: |
+    Validate ContainerSpec envFrom variables projection ConfigMap reference.
+  target: |
+    Shortcut("ContainerSpec")
+  cache: |
+    cache.configMaps = 
+      helpers.newNameLookupDict(
+        ApiVersion('v1')
+            .Kind("ConfigMap")
+            .many()
+      );
+  rule: |
+    for(const envFrom of config.spec?.envFrom ?? [])
+    {
+      if (envFrom.configMapRef)
+      {
+        if (!cache.configMaps.contains(envFrom.configMapRef.name))
+        {
+          if (!envFrom.configMapRef.optional)
+          {
+            error(`Could not find ConfigMap ${envFrom.configMapRef.name} referenced in envFrom.`);
+          }
+        }
+      }
+    }

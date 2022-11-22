@@ -1,7 +1,0 @@
-{
-    "id": "security/secret-accessor",
-    "name": "Secret Accessors",
-    "description": "Identifies applications (outside of kube-system) that access Kubernets secrets.",
-    "targetScript": "select('Namespace')\n    .filter(({item}) => item.name != 'kube-system')\n.child('Application')\n    .filter(({item}) => {\n        for(var svcAccount of item.children('Service Account'))\n        {\n            var roleMatrix = svcAccount.getProperties ('resource-role-matrix');\n            for(var row of roleMatrix.rows)\n            {\n                if (row.resource == 'secrets')\n                {\n                   return true;\n                }\n            }\n        }\n        return false;\n    })",
-    "ruleScript": "mark('secret-accessors')"
-}

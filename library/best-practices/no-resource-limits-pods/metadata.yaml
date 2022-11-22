@@ -1,3 +1,0 @@
-name: No Resource Limits Pods
-description: Identifies pods that do not have resource limits set
-
