@@ -4,29 +4,17 @@ The **rules engine** is a way to extend [Kubevious](https://github.com/kubevious
 
 This repository is a community driven library for common rules that can be used to make Kuberentes safer to use. For detailed documentation on writing custom rules can be found [here](https://github.com/kubevious/kubevious/blob/master/docs/rules-engine.md).
 
-## Best Practices
-| Rule | Description |
-| ---- | ----------- |
-| [container-memory-usage](library/container-memory-usage) | Checks for container memory request to be set and marks containers as high and medium memory users. |
-| [image-latest-tag-check](library/image-latest-tag-check) | Raises errors on container images that have latest tag. |
-| [pvc-outside-statefulset](library/pvc-outside-statefulset) | Checks for PersistentVolumeClaims to configured for Pods managed by StatefulSets. |
+## Rules in this library
+[//]: <> (BEGIN_RULES_DESCRIPTION)
+[//]: <> (END_RULES_DESCRIPTION)
 
-## Safety
-| Rule | Description |
-| ---- | ----------- |
-| [secret-accessor](library/secret-accessor) | Identifies Applications that access Kubernets secrets. |
-
-## Smart Filters
-| Rule | Description |
-| ---- | ----------- |
-| [large-namespace](library/large-namespace) | Identifies namespaces that are using large chunk of total cluster CPU and Memory resources. |
-| [public-application](library/public-application) | Identifies applications that are exposed using Ingress. |
-| [stateful-application](library/stateful-application) | Identifies stateful applications that have persistent volumes attached. |
-| [stateful-public-application](library/stateful-public-application) | Identifies applications that are exposed using Ingress and also have Persistent Volume Claims attached. |
 
 ## Contributing
 To submit your rules to the library follow the steps:
-1. Create a placeholder directory under [library/](library/). The name should clearly describe the rule.
-2. Rule to be described in a **README.md** file. Follow the example of [image-latest-tag-check](library/image-latest-tag-check) rule.
-3. Include **description**, **target script** and **rule script**.
-4. Submit a pull request.
+1. Find the right place for the rule under [rules/](rules/) directory.
+2. Index the library using:
+```sh
+$ kubevious index-library .
+```
+3. Submit a pull request.
+
