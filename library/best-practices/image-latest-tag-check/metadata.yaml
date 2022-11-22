@@ -1,3 +1,0 @@
-name: Image Latest Tag Check
-description: Raises errors on container images that have **latest** tag.
-

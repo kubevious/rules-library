@@ -1,7 +1,0 @@
-{
-    "id": "best-practices/image-latest-tag-check",
-    "name": "Image Latest Tag Check",
-    "description": "Raises errors on container images that have **latest** tag.",
-    "targetScript": "select('Image')",
-    "ruleScript": "if (item.props.tag == 'latest') {\n    error(\"You are using latest image tag. Please don't do that.\");\n}"
-}

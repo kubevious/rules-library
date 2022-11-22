@@ -6,23 +6,22 @@ spec:
   target: |
     Shortcut("ContainerSpec")
   cache: |
-    cache.configMaps = {};
-    for(const configMap of ApiVersion('v1')
-                       .Kind("ConfigMap")
-                       .many())
-    {
-      cache.configMaps[configMap.name] = true;
-    }
+    cache.configMaps = 
+      helpers.newNameLookupDict(
+        ApiVersion('v1')
+            .Kind("ConfigMap")
+            .many()
+      );
   rule: |
     for(const envFrom of config.spec?.envFrom ?? [])
     {
       if (envFrom.configMapRef)
       {
-        if (!cache.configMaps[envFrom.configMapRef.name])
+        if (!cache.configMaps.contains(envFrom.configMapRef.name))
         {
           if (!envFrom.configMapRef.optional)
           {
-            error(`Could not find ConfigMap ${envFrom.configMapRef.name}`);
+            error(`Could not find ConfigMap ${envFrom.configMapRef.name} referenced in envFrom.`);
           }
         }
       }

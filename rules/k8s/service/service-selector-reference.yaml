@@ -8,19 +8,17 @@ spec:
       .Kind('Service')
   cache: |
     cache.apps = helpers.newLabelLookupDict();
-    
-    for(const app of ApiVersion('apps/v1')
-                       .Kind("Deployment")
+    for(const app of Shortcut("PodSpec")
                        .many())
     {
-      cache.apps.add(app, app.config.spec?.template?.metadata?.labels);
+      cache.apps.add(app, app.config.metadata?.labels);
     }
   rule: |
     if (!config.spec.selector) {
       return;
     }
 
-    if (cache.apps.resolveSelector(config.spec.selector).length == 0)
+    if (!cache.apps.matchesSelector(config.spec.selector))
     {
       error("Could not find Applications for Service");
     }

@@ -6,13 +6,23 @@ spec:
   rules:
   - name: certificate-check
     path: rules/cert-manager/certificate-check.yaml
+  - name: container-env-config-map-ref
+    path: rules/k8s/container/env-config-map-ref.yaml
   - name: container-env-from-config-map-ref
     path: rules/k8s/container/env-from-config-map-ref.yaml
   - name: container-env-from-secret-ref
     path: rules/k8s/container/env-from-secret-ref.yaml
+  - name: container-env-secret-ref
+    path: rules/k8s/container/env-secret-ref.yaml
   - name: container-latest-image
     path: rules/k8s/container/latest-image.yaml
   - name: istio-gateway-host-check
     path: rules/istio/gateway-host-check.yaml
+  - name: pod-spec-volume-config-map-ref
+    path: rules/k8s/pod-spec/volume-config-map-ref.yaml
+  - name: pod-spec-volume-pvc-ref
+    path: rules/k8s/pod-spec/volume-pvc-ref.yaml
+  - name: pod-spec-volume-secret-ref
+    path: rules/k8s/pod-spec/volume-secret-ref.yaml
   - name: service-selector-reference
     path: rules/k8s/service/service-selector-reference.yaml
