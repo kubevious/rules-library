@@ -42,7 +42,20 @@ Validate ContainerSpec environment variable Secret reference.
 Validate ContainerSpec image to have non latest tag.
 
 
+### 📂 K8S/INGRESS
+📜 **[ingress-ext-service-ref](k8s/ingress/ingress-ext-service-ref.yaml)**.
+Validate Ingress (extension) to Service reference.
+
+
+📜 **[ingress-service-ref](k8s/ingress/ingress-service-ref.yaml)**.
+Validate Ingress to Service reference.
+
+
 ### 📂 K8S/POD-SPEC
+📜 **[pod-spec-service-account-ref](k8s/pod-spec/service-account-ref.yaml)**.
+Validate PodSpec to ServiceAccount reference.
+
+
 📜 **[pod-spec-volume-config-map-ref](k8s/pod-spec/volume-config-map-ref.yaml)**.
 Validate PodSpec volume mount ConfigMap reference.
 
@@ -53,6 +66,15 @@ Validate PodSpec volume mount PersistentVolumeClaim reference.
 
 📜 **[pod-spec-volume-secret-ref](k8s/pod-spec/volume-secret-ref.yaml)**.
 Validate PodSpec volume mount Secret reference.
+
+
+### 📂 K8S/RBAC
+📜 **[role-binding-role-ref](k8s/rbac/role-binding-role-ref.yaml)**.
+Validate RoleBinding and ClusterRoleBinding to Role and ClusterRole reference.
+
+
+📜 **[role-binding-service-account-ref](k8s/rbac/role-binding-service-account-ref.yaml)**.
+Validate RoleBinding and ClusterRoleBinding to ServiceAccount subject reference.
 
 
 ### 📂 K8S/SERVICE

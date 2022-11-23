@@ -20,7 +20,33 @@ spec:
       return;
     }
 
-    if (!cache.apps.matchesSelector(config.spec.selector))
+    const apps = cache.apps.resolveSelector(config.spec.selector)
+    if (apps.length === 0)
     {
       error("Could not find Applications for Service");
+    }
+    else
+    {
+      for(const app of apps)
+      {
+        const appPortMap = {};
+        for(const container of app?.config.spec?.containers ?? [])
+        {
+          for(const port of container.ports ?? [])
+          {
+            appPortMap[port.containerPort] = true;
+            if (port.name) {
+              appPortMap[port.name] = true;
+            }
+          }
+
+          for(const servicePort of config.spec?.ports ?? [])
+          {
+            if (!appPortMap[servicePort.targetPort])
+            {
+              warning(`Could not find exposed port ${servicePort.targetPort} in ${app.name}`);
+            }
+          }
+        }
+      }
     }

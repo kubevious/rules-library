@@ -1,0 +1,73 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: ingress-ext-service-ref
+spec:
+  summary: |
+    Validate Ingress (extension) to Service reference.
+  target: |
+    Api('extensions')
+      .Kind('Ingress')
+  rule: |
+    if (config.spec?.backend) {
+      validateBackend(config.spec?.backend, 'default backend');
+    }
+    for(const rule of config.spec?.rules ?? [])
+    {
+      if (rule.http)
+      {
+        for(const path of rule.http.paths ?? [])
+        {
+          if(path.backend)
+          {
+            validateBackend(path.backend, `path ${path.path}`)
+          }
+        }
+      } 
+    }
+
+    function validateBackend(backend, backendName)
+    {
+      const serviceName = backend.serviceName;
+      if (!backend.resource)
+      {
+        if (!serviceName)
+        {
+          error(`ServiceName not set in ${backendName}`);
+        }
+        else
+        {
+          const serviceItem = Api('')
+                                .Kind('Service')
+                                .name(serviceName)
+                                .single();
+          if (!serviceItem)
+          {
+            error(`Could not find Service ${serviceName} referenced in ${backendName}`);
+          }
+          else
+          {
+            const servicePort = backend.servicePort;
+
+            const ports = {};
+            for(const port of serviceItem.config.spec?.ports ?? [])
+            {
+              ports[port.port] = true;
+              ports[port.name] = true;
+            }
+
+            if (!ports[servicePort])
+            {
+              error(`Could not find Port ${servicePort} in Service ${serviceName} referenced in ${backendName}`);
+            }
+          }
+        }
+      }
+      else
+      {
+        if (serviceName)
+        {
+          error(`Should only use resource or serviceName in ${backendName}`);
+        }
+      }
+    }    

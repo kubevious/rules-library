@@ -1,0 +1,106 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: ingress-service-ref
+spec:
+  summary: |
+    Validate Ingress to Service reference.
+  target: |
+    Api('networking.k8s.io')
+      .Kind('Ingress')
+  rule: |
+    if (config.spec?.defaultBackend) {
+      validateBackend(config.spec?.defaultBackend, 'default backend');
+    }
+    for(const rule of config.spec?.rules ?? [])
+    {
+      if (rule.http)
+      {
+        for(const path of rule.http.paths ?? [])
+        {
+          if (path.backend)
+          {
+            validateBackend(path.backend, `path ${path.path}`);
+          }
+        }
+      }
+    }
+
+    function validateBackend(backend, backendName)
+    {
+      if (!backend.resource)
+      {
+        if (!backend.service)
+        {
+          error(`service is not set in ${backendName}`);
+        }
+        else
+        {
+          const serviceName = backend.service.name;
+          const serviceItem = Api('')
+                                .Kind('Service')
+                                .name(serviceName)
+                                .single();
+          if (!serviceItem)
+          {
+            error(`Could not find Service ${serviceName} referenced in ${backendName}.`);
+          }
+          else
+          {
+            const servicePort = backend.service.port;
+            if (servicePort)
+            {
+              if (servicePort.name)
+              {
+                if (servicePort.number)
+                {
+                  error(`Using both port name and number at the same time in ${backendName}`);
+                }
+                else
+                {
+                  const ports = {};
+                  for(const port of serviceItem.config.spec?.ports ?? [])
+                  {
+                    ports[port.name] = true;
+                  }
+                  if (!ports[servicePort.name])
+                  {
+                    error(`Could not find Port ${servicePort.name} in Service ${serviceName} referenced in ${backendName}.`);
+                  }
+                }
+              }
+              else
+              {
+                if (servicePort.number)
+                {
+                  const ports = {};
+                  for(const port of serviceItem.config.spec?.ports ?? [])
+                  {
+                    ports[port.port] = true;
+                  }
+                  if (!ports[servicePort.number])
+                  {
+                    error(`Could not find Port ${servicePort.number} in Service ${serviceName} referenced in ${backendName}.`);
+                  }
+                }
+                else
+                {
+                  error(`Should have port name or number set in ${backendName}`);
+                }
+              }
+            }
+            else
+            {
+              error(`port is not set in ${backendName}`);
+            }
+          }
+        }
+      }
+      else
+      {
+        if (backend.service)
+        {
+          error(`Should only use resource or service in ${backendName}`);
+        }
+      }
+    }

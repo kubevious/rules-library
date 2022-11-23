@@ -1,0 +1,30 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: role-binding-role-ref
+spec:
+  summary: |
+    Validate RoleBinding and ClusterRoleBinding to Role and ClusterRole reference.
+  target: |
+    Union(
+      Api('rbac.authorization.k8s.io')
+        .Kind("ClusterRoleBinding"),
+      Api('rbac.authorization.k8s.io')
+        .Kind("RoleBinding"),
+    )
+  rule: |
+    if (!config.roleRef) {
+      error(`RoleRef not set`);
+      return;
+    }
+
+    const role = Api(config.roleRef.apiGroup)
+                    .Kind(config.roleRef.kind)
+                    .name(config.roleRef.name)
+                    .namespace(config.roleRef.namespace ?? item.namespace)
+                    .single();
+
+    if (!role)
+    {
+      error(`Could not find ${config.roleRef.kind} ${config.roleRef.name}`);
+    }
