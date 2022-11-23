@@ -8,7 +8,8 @@ spec:
   target: |
     Union(
       Api('rbac.authorization.k8s.io')
-        .Kind("ClusterRoleBinding"),
+        .Kind("ClusterRoleBinding")
+        .isClusterScope(true),
       Api('rbac.authorization.k8s.io')
         .Kind("RoleBinding"),
     )
@@ -18,9 +19,11 @@ spec:
       return;
     }
 
+    const roleKind = config.roleRef.kind;
     const role = Api(config.roleRef.apiGroup)
-                    .Kind(config.roleRef.kind)
+                    .Kind(roleKind)
                     .name(config.roleRef.name)
+                    .isClusterScope(roleKind.startsWith('Cluster'))
                     .namespace(config.roleRef.namespace ?? item.namespace)
                     .single();
 

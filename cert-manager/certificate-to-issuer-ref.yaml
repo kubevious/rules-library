@@ -6,14 +6,28 @@ spec:
   summary: |
     Validate CertManager Certificate to Issuer reference.
   target: |
-    ApiVersion('cert-manager.io/v1')
+    Api('cert-manager.io')
       .Kind('Certificate')
   rule: |
+    const issuerRef = config.spec?.issuerRef;
+    if (!issuerRef) {
+      error('issuerRef is not set');
+      return;
+    }
+
+    const issuerRefKind = issuerRef.kind ?? 'Issuer';
+
+    const issuerRefName = config.spec?.issuerRef?.name;
+    if (!issuerRefName) {
+      error('issuerRef.name is not set.');
+      return;
+    }
+
     const issuer = ApiVersion('cert-manager.io/v1')
-                    .Kind(config.spec?.issuerRef?.kind)
-                    .name(config.spec?.issuerRef?.name)
-                    .allNamespaces()
+                    .Kind(issuerRefKind)
+                    .name(issuerRefName)
+                    .isClusterScope(issuerRefKind.startsWith('Cluster'))
                     .single();
     if (!issuer) {
-      error('Could not find the Certificate Issuer ${config.spec?.issuerRef?.kind}/${config.spec?.issuerRef?.name}');
+      error(`Could not find the Certificate ${issuerRefKind} ${issuerRefName}`);
     }
