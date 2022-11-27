@@ -1,6 +1,8 @@
 # Kubevious Rules Library
 
-This repository represents a library of rules for [Kubevious CLI](https://github.com/kubevious/cli) project to validate errors (typos, conflicts, misconfigurations) and violations of compliance and security best-practices in Kubernetes and related cloud-native projects.
+This repository represents a library of rules for [Kubevious CLI](https://github.com/kubevious/cli) project to validate errors (typos, conflicts, misconfigurations) and violations of compliance and security best practices in Kubernetes and related cloud-native projects.
+
+Kubevious rules are expressed in a domain-specific language called [Kubik](https://github.com/kubevious/kubik).
 
 ## Library Rules
 
