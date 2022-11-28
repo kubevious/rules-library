@@ -7,13 +7,6 @@ spec:
     Validate PodSpec volume mount ConfigMap reference.
   target: |
     Shortcut("PodSpec")
-  cache: |
-    cache.configMaps = 
-      helpers.newNameLookupDict(
-        ApiVersion('v1')
-            .Kind("ConfigMap")
-            .many()
-      );
   rule: |
     for(const volume of config.spec?.volumes ?? [])
     {
@@ -35,7 +28,10 @@ spec:
 
     function checkConfigMapRef(volumeName, configMapRef)
     {
-      const configMapItem = cache.configMaps.resolve(configMapRef.name);
+      const configMapItem = ApiVersion('v1')
+                              .Kind("ConfigMap")
+                              .name(configMapRef.name)
+                              .single()
       if (!configMapItem)
       {
         if (!configMapRef.optional)

@@ -7,24 +7,28 @@ spec:
     Validate ContainerSpec envFrom variables projection ConfigMap reference.
   target: |
     Shortcut("ContainerSpec")
-  cache: |
-    cache.configMaps = 
-      helpers.newNameLookupDict(
-        ApiVersion('v1')
-            .Kind("ConfigMap")
-            .many()
-      );
   rule: |
     for(const envFrom of config.spec?.envFrom ?? [])
     {
       if (envFrom.configMapRef)
       {
-        if (!cache.configMaps.contains(envFrom.configMapRef.name))
+        if (envFrom.configMapRef.name)
         {
-          if (!envFrom.configMapRef.optional)
+          const configMapItem = ApiVersion('v1')
+                        .Kind("ConfigMap")
+                        .name(envFrom.configMapRef.name)
+                        .single()
+          if (!configMapItem)
           {
-            error(`Could not find ConfigMap ${envFrom.configMapRef.name} referenced in envFrom.`);
+            if (!envFrom.configMapRef.optional)
+            {
+              error(`Could not find ConfigMap ${envFrom.configMapRef.name} referenced in envFrom`);
+            }
           }
+        }
+        else
+        {
+          error(`ConfigMap name not set in envFrom.configMapRef`);
         }
       }
     }

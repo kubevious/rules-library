@@ -7,13 +7,6 @@ spec:
     Validate ContainerSpec environment variable ConfigMap reference.
   target: |
     Shortcut("ContainerSpec")
-  cache: |
-    cache.configMaps = 
-      helpers.newNameLookupDict(
-        ApiVersion('v1')
-            .Kind("ConfigMap")
-            .many()
-      );
   rule: |
     for(const env of config.spec?.env ?? [])
     {
@@ -21,25 +14,35 @@ spec:
       {
         if (env.valueFrom.configMapKeyRef)
         {
-          const configMapItem = cache.configMaps.resolve(env.valueFrom.configMapKeyRef.name);
-          if (!configMapItem)
+          if (env.valueFrom.configMapKeyRef.name)
           {
-            if (!env.valueFrom.configMapKeyRef.optional)
+            const configMapItem = ApiVersion('v1')
+                                    .Kind("ConfigMap")
+                                    .name(env.valueFrom.configMapKeyRef.name)
+                                    .single()
+            if (!configMapItem)
             {
-              error(`Could not find ConfigMap ${env.valueFrom.configMapKeyRef.name} referenced in env variable ${env.name}.`);
+              if (!env.valueFrom.configMapKeyRef.optional)
+              {
+                error(`Could not find ConfigMap ${env.valueFrom.configMapKeyRef.name} referenced in env variable ${env.name}`);
+              }
+            }
+            else
+            {
+              const dataObj = configMapItem.config.data ?? {};
+              if (!dataObj[env.valueFrom.configMapKeyRef.key])
+              {
+                if (!env.valueFrom.configMapKeyRef.optional)
+                {
+                  error(`Could not find data key ${env.valueFrom.configMapKeyRef.key} in ConfigMap ${env.valueFrom.configMapKeyRef.name} referenced in env variable ${env.name}`);
+                }
+              }
             }
           }
           else
           {
-            const dataObj = configMapItem.config.data ?? {};
-            if (!dataObj[env.valueFrom.configMapKeyRef.key])
-            {
-              if (!env.valueFrom.configMapKeyRef.optional)
-              {
-                error(`Could not find data key ${env.valueFrom.configMapKeyRef.key} in ConfigMap ${env.valueFrom.configMapKeyRef.name} referenced in env variable ${env.name}.`);
-              }
-            }
-          }
+            error(`ConfigMap name not set in env.valueFrom.configMapKeyRef`);
+          }          
         }
       }
     }

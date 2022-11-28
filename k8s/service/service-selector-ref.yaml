@@ -23,7 +23,7 @@ spec:
     const apps = cache.apps.resolveSelector(config.spec.selector)
     if (apps.length === 0)
     {
-      error("Could not find Applications for Service");
+      error("Could not find Applications for Service with ${helpers.labelsToString(config.spec.selector)} labels");
     }
     else
     {

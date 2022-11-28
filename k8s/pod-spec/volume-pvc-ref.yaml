@@ -7,13 +7,6 @@ spec:
     Validate PodSpec volume mount PersistentVolumeClaim reference.
   target: |
     Shortcut("PodSpec")
-  cache: |
-    cache.pvcs = 
-      helpers.newNameLookupDict(
-        ApiVersion('v1')
-            .Kind("PersistentVolumeClaim")
-            .many()
-      );
   rule: |
     for(const volume of config.spec?.volumes ?? [])
     {
@@ -25,7 +18,10 @@ spec:
 
     function checkPvcRef(volumeName, pvcRef)
     {
-      const pvcItem = cache.pvcs.resolve(pvcRef.claimName);
+      const pvcItem = ApiVersion('v1')
+                        .Kind("PersistentVolumeClaim")
+                        .name(pvcRef.claimName)
+                        .single()
       if (!pvcItem)
       {
         error(`Could not find PersistentVolumeClaim ${pvcRef.claimName} referenced in volume ${volumeName}.`);
