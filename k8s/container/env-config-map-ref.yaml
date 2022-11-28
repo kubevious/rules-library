@@ -30,7 +30,7 @@ spec:
             else
             {
               const dataObj = configMapItem.config.data ?? {};
-              if (!dataObj[env.valueFrom.configMapKeyRef.key])
+              if (dataObj[env.valueFrom.configMapKeyRef.key] === undefined)
               {
                 if (!env.valueFrom.configMapKeyRef.optional)
                 {

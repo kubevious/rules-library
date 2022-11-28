@@ -43,3 +43,10 @@ if [ $RESULT -ne 0 ]; then
   echo "Validate Traefik Failed"
   exit 1;
 fi
+
+./validate-kubeflow
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+  echo "Validate Kubeflow Failed"
+  exit 1;
+fi
