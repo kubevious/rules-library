@@ -1,3 +1,5 @@
+[![Codefresh build status]( https://g.codefresh.io/api/badges/pipeline/kubevious/OSS%2Frules-library?type=cf-1)]( https://g.codefresh.io/public/accounts/kubevious/pipelines/new/638516d4e2f13d1b1ca9f80a)
+
 # Kubevious Rules Library
 
 This repository represents a library of rules for [Kubevious CLI](https://github.com/kubevious/cli) project to validate errors (typos, conflicts, misconfigurations) and violations of compliance and security best practices in Kubernetes and related cloud-native projects.
