@@ -37,12 +37,37 @@ fi
 echo "> "
 echo "> Running Traefik Validate..."
 echo "> "
+helm repo add traefik https://traefik.github.io/charts
 helm template traefik/traefik --include-crds | kubevious guard --skip-community-rules ./index.yaml --stream
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   echo "Validate Traefik Failed"
   exit 1;
 fi
+
+echo "> "
+echo "> Running Prometheus Validate..."
+echo "> "
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm template prometheus-community/prometheus | kubevious guard --skip-community-rules ./index.yaml --stream
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+  echo "Validate Prometheus Failed"
+  exit 1;
+fi
+
+
+echo "> "
+echo "> Running Grafana Validate..."
+echo "> "
+helm repo add grafana https://grafana.github.io/helm-charts
+helm template grafana/grafana --namespace grafana --set persistence.enabled=true | kubevious guard --skip-community-rules ./index.yaml --stream
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+  echo "Validate Grafana Failed"
+  exit 1;
+fi
+
 
 ./validate-kubeflow
 RESULT=$?

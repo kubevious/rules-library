@@ -67,6 +67,28 @@ steps:
       - mkdir traefik
       - helm template traefik/traefik --include-crds > traefik/traefik.yaml
 
+  prepare_chart_prometheus:
+    title: Prepare Prometheus Charts
+    stage: prepare
+    image: kubevious/cicd_deployer:latest
+    working_directory: ${{SAMPLES_PATH}}
+    commands:
+      - helm version
+      - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+      - mkdir prometheus
+      - helm template prometheus-community/prometheus > prometheus/prometheus.yaml
+
+  prepare_chart_grafana:
+    title: Prepare Grafana Charts
+    stage: prepare
+    image: kubevious/cicd_deployer:latest
+    working_directory: ${{SAMPLES_PATH}}
+    commands:
+      - helm version
+      - helm repo add grafana https://grafana.github.io/helm-charts
+      - mkdir grafana
+      - helm template grafana/grafana --namespace grafana --set persistence.enabled=true > grafana/grafana.yaml
+
   prepare_chart_kubeflow:
     title: Prepare Kubeflow Charts
     stage: prepare
@@ -123,4 +145,22 @@ steps:
     commands:
       - kubevious --version
       - kubevious guard --skip-community-rules ./index.yaml ${{SAMPLES_PATH}}/kubeflow/cluster-scoped-resources.yaml ${{SAMPLES_PATH}}/kubeflow/env-platform-agnostic.yaml ${{SAMPLES_PATH}}/kubeflow/webhook-server-tls.yaml
+
+  validate_prometheus:
+    title: Validate Prometheus
+    stage: test
+    image: 'kubevious/cli:latest'
+    working_directory: ${{DEMOS_REPO_PATH}}
+    commands:
+      - kubevious --version
+      - kubevious guard --skip-community-rules ./index.yaml ${{SAMPLES_PATH}}/prometheus/prometheus.yaml
+
+  validate_grafana:
+    title: Validate Grafana
+    stage: test
+    image: 'kubevious/cli:latest'
+    working_directory: ${{DEMOS_REPO_PATH}}
+    commands:
+      - kubevious --version
+      - kubevious guard --skip-community-rules ./index.yaml ${{SAMPLES_PATH}}/grafana/grafana.yaml
       
