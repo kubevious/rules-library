@@ -61,3 +61,6 @@ steps:
     working_directory: ${{DEMOS_REPO_PATH}}
     commands:
       - kubevious --version
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/hipster-chart/templates/manifests.yaml
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/02-voter-app/voter-chart/templates
+      
