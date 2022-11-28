@@ -64,6 +64,7 @@ steps:
     commands:
       - helm version
       - helm repo add traefik https://traefik.github.io/charts
+      - ls -la
       - mkdir traefik
       - helm template traefik/traefik --include-crds > traefik/traefik.yaml
 
@@ -75,6 +76,7 @@ steps:
     commands:
       - helm version
       - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+      - ls -la
       - mkdir prometheus
       - helm template prometheus-community/prometheus > prometheus/prometheus.yaml
 
@@ -86,6 +88,7 @@ steps:
     commands:
       - helm version
       - helm repo add grafana https://grafana.github.io/helm-charts
+      - ls -la
       - mkdir grafana
       - helm template grafana/grafana --namespace grafana --set persistence.enabled=true > grafana/grafana.yaml
 
@@ -96,6 +99,7 @@ steps:
     working_directory: ${{SAMPLES_PATH}}
     commands:
       - git clone https://github.com/kubeflow/pipelines.git kubeflow-pipelines.git
+      - ls -la
       - mkdir kubeflow
       - kustomize build kubeflow-pipelines.git/manifests/kustomize/cluster-scoped-resources > kubeflow/cluster-scoped-resources.yaml
       - kustomize build kubeflow-pipelines.git/manifests/kustomize/env/platform-agnostic > kubeflow/env-platform-agnostic.yaml
