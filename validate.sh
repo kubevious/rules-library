@@ -69,7 +69,7 @@ if [ $RESULT -ne 0 ]; then
 fi
 
 
-./validate-kubeflow
+./validate-kubeflow.sh
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   echo "Validate Kubeflow Failed"
