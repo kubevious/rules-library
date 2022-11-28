@@ -2,6 +2,7 @@ version: "1.0"
 
 stages:
   - "clone"
+  - "prepare"
   - "test"
 
 steps:
@@ -19,6 +20,7 @@ steps:
       - export DEMOS_REPO_NAME=demos
       - cf_export DEMOS_REPO_NAME=${DEMOS_REPO_NAME}
       - cf_export DEMOS_REPO_PATH=/codefresh/volume/${DEMOS_REPO_NAME}.git
+      - cf_export SAMPLES_PATH=/codefresh/volume/samples
       - 'echo "Repo: ${{CF_REPO_NAME}}"'
       - 'echo "Branch: ${{CF_BRANCH}}"'
       - 'echo "Revision: ${{CF_REVISION}}"'
@@ -52,15 +54,44 @@ steps:
       - 'git clone https://${{CF_REPO_OWNER}}:${{GITHUB_TOKEN}}@github.com/${{CF_REPO_OWNER}}/${{DEMOS_REPO_NAME}}.git ${{DEMOS_REPO_PATH}}'
       - ls -la
       - cd ${{DEMOS_REPO_PATH}}
-      - ls -la      
+      - ls -la
 
-  validate:
-    title: Run Tests
+  prepare_charts:
+    title: Prepare Charts
+    stage: prepare
+    image: kubevious/cicd_deployer:latest
+    working_directory: ${{SAMPLES_PATH}}
+    commands:
+      - helm version
+      - helm repo add traefik https://traefik.github.io/charts
+      - helm template traefik/traefik --include-crds > traefik.yaml
+     
+  validate_hipster:
+    title: Validate Hipster
     stage: test
     image: 'kubevious/cli:latest'
     working_directory: ${{DEMOS_REPO_PATH}}
     commands:
       - kubevious --version
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/hipster-chart/templates/manifests.yaml
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/02-voter-app/voter-chart/templates
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/hipster-chart/templates/
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/hipster-chart/templates/ ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/network-policies-chart/templates/
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/hipster-chart/templates/ ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/istio-chart/templates/ https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml
+
+  validate_voter:
+    title: Validate Voter
+    stage: test
+    image: 'kubevious/cli:latest'
+    working_directory: ${{DEMOS_REPO_PATH}}
+    commands:
+      - kubevious --version
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/02-voter-app/voter-chart/template
+
+  validate_traefik:
+    title: Validate Traefik
+    stage: test
+    image: 'kubevious/cli:latest'
+    working_directory: ${{DEMOS_REPO_PATH}}
+    commands:
+      - kubevious --version
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{SAMPLES_PATH}}/traefik.yaml
       
