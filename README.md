@@ -6,6 +6,8 @@ This repository represents a library of rules for [Kubevious CLI](https://github
 
 Kubevious rules are expressed in a domain-specific language called [Kubik](https://github.com/kubevious/kubik).
 
+![Kubevious CLI Video](https://raw.githubusercontent.com/kubevious/media/master/cli/intro/demo_light.svg)
+
 ## Library Rules
 
 [//]: # (BEGIN_RULES_DESCRIPTION)
