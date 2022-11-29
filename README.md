@@ -21,7 +21,7 @@ Validate CertManager Certificate to Issuer reference.
 
 
 ### 📂 ISTIO
-📜 **[virtual-service-to-gateway-ref](istio/virtual-service-to-gateway-ref.yaml)**.
+📜 **[istio-virtual-service-to-gateway-ref](istio/virtual-service-to-gateway-ref.yaml)**.
 Validate Istio VirtualService to IstioGateway reference.
 
 
@@ -44,6 +44,15 @@ Validate ContainerSpec environment variable Secret reference.
 
 📜 **[container-latest-image](k8s/container/latest-image.yaml)**.
 Validate ContainerSpec image to have non latest tag.
+
+
+### 📂 K8S/GATEWAY-API
+📜 **[gateway-class-ref](k8s/gateway-api/gateway-class-ref.yaml)**.
+Validate Gateway to Class reference.
+
+
+📜 **[http-route-gateway-ref](k8s/gateway-api/http-route-gateway-ref.yaml)**.
+Validate HTTPRoute to Gateways reference.
 
 
 ### 📂 K8S/INGRESS

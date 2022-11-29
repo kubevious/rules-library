@@ -31,12 +31,12 @@ echo "> "
 echo "> Running Istio-GatewayApi Validate..."
 echo "> "
 kubevious guard --skip-community-rules ./index.yaml \
-  https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml \
   https://github.com/kubernetes-sigs/gateway-api/releases/download/v0.5.1/standard-install.yaml \
   ./runtime/secret-gateway-api-admission.yaml \
   https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/bookinfo.yaml \
   https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/bookinfo-gateway.yaml \
-  https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/bookinfo-versions.yaml
+  https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/bookinfo-versions.yaml \
+  https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/mock-gateway-class.yaml
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   echo "Validate Istio-GatewayApi Failed"

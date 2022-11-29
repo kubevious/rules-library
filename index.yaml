@@ -34,6 +34,16 @@ spec:
     category: k8s/container
     summary: |
       Validate ContainerSpec image to have non latest tag.
+  - name: gateway-class-ref
+    path: k8s/gateway-api/gateway-class-ref.yaml
+    category: k8s/gateway-api
+    summary: |
+      Validate Gateway to Class reference.
+  - name: http-route-gateway-ref
+    path: k8s/gateway-api/http-route-gateway-ref.yaml
+    category: k8s/gateway-api
+    summary: |
+      Validate HTTPRoute to Gateways reference.
   - name: ingress-ext-service-ref
     path: k8s/ingress/ingress-ext-service-ref.yaml
     category: k8s/ingress
@@ -44,6 +54,11 @@ spec:
     category: k8s/ingress
     summary: |
       Validate Ingress to Service reference.
+  - name: istio-virtual-service-to-gateway-ref
+    path: istio/virtual-service-to-gateway-ref.yaml
+    category: istio
+    summary: |
+      Validate Istio VirtualService to IstioGateway reference.
   - name: network-policy-pod-selector-ref
     path: k8s/network-policy/network-policy-pod-selector-ref.yaml
     category: k8s/network-policy
@@ -86,8 +101,3 @@ spec:
     category: k8s/service
     summary: |
       Validate Service to PodSpec label selector reference.
-  - name: virtual-service-to-gateway-ref
-    path: istio/virtual-service-to-gateway-ref.yaml
-    category: istio
-    summary: |
-      Validate Istio VirtualService to IstioGateway reference.

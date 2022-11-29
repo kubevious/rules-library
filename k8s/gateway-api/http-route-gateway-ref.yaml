@@ -1,0 +1,27 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: http-route-gateway-ref
+spec:
+  summary: |
+    Validate HTTPRoute to Gateways reference.
+  target: |
+    Api('gateway.networking.k8s.io')
+      .Kind('HTTPRoute')
+  rule: |
+    for(const gatewayRef of config.spec?.parentRefs ?? [])
+    {
+      const gatewayItem = Api('gateway.networking.k8s.io')
+                            .Kind('Gateway')
+                            .name(gatewayRef.name)
+                            .name(gatewayRef.namespace)
+                            .single();
+      if (!gatewayItem)
+      {
+        if (gatewayRef.namespace) {
+          error(`Gateway ${gatewayRef.name} not found in namespace ${gatewayRef.namespace}`);
+        } else {
+          error(`Gateway ${gatewayRef.name} not found`);
+        }
+      }
+    }

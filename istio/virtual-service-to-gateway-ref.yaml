@@ -1,7 +1,7 @@
 apiVersion: kubevious.io/v1alpha1
 kind: ClusterRule
 metadata:
-  name: virtual-service-to-gateway-ref
+  name: istio-virtual-service-to-gateway-ref
 spec:
   summary: |
     Validate Istio VirtualService to IstioGateway reference.
@@ -9,16 +9,37 @@ spec:
     Api('networking.istio.io')
       .Kind('VirtualService')
   rule: |
-    for(let gatewayName of (config.spec?.gateways || []))
+    for(let gatewayTarget of (config.spec?.gateways || []))
     {
-      let gateway = 
+      let gatewayNaming = gatewayTarget.split('/');
+      if (gatewayNaming.length == 2) {
+        let gatewayItem = 
             Api('networking.istio.io')
-              .Kind('Gateway')
-              .name(gatewayName)
-              .single();
-        
-      if (!gateway)
+                .Kind('Gateway')
+                .name(gatewayNaming[1])
+                .namespace(gatewayNaming[0])
+                .single();
+          
+        if (!gatewayItem)
+        {
+          error(`Did not find Gateway ${gatewayNaming[1]} in namespace ${gatewayNaming[0]}`); 
+        }
+      } 
+      else if (gatewayNaming.length == 1)
       {
-        error(`Did not find Gateway ${gatewayName}`); 
+        let gatewayItem =
+            Api('networking.istio.io')
+                  .Kind('Gateway')
+                  .name(gatewayNaming[0])
+                  .single();
+            
+        if (!gatewayItem)
+        {
+          error(`Did not find Gateway ${gatewayNaming[0]}`); 
+        }
+      }
+      else
+      {
+        error(`Invalid gateway name: ${gatewayTarget}`); 
       }
     }

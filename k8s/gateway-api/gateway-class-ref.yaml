@@ -1,0 +1,26 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: gateway-class-ref
+spec:
+  summary: |
+    Validate Gateway to Class reference.
+  target: |
+    Api('gateway.networking.k8s.io')
+      .Kind('Gateway')
+  rule: |
+    const gatewayClassName = config.spec?.gatewayClassName;
+    if (!gatewayClassName) {
+      error(`gatewayClassName is not set`);
+      return;
+    }
+
+    const classItem = Api('gateway.networking.k8s.io')
+                        .Kind('GatewayClass')
+                        .name(gatewayClassName)
+                        .isClusterScope(true)
+                        .single();
+    if (!classItem)
+    {
+      error(`GatewayClass ${gatewayClassName} not found`);
+    }
