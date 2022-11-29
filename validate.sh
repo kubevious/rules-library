@@ -19,7 +19,10 @@ fi
 echo "> "
 echo "> Running HipsterShop NetworkPolicies Validate..."
 echo "> "
-kubevious guard --skip-community-rules ./index.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/01-hipster-shop/hipster-chart/templates/manifests.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/01-hipster-shop/network-policies-chart/templates/network-policy-adservice.yaml
+kubevious guard --skip-community-rules ./index.yaml \
+  https://raw.githubusercontent.com/kubevious/demos/main/guard/01-hipster-shop/hipster-chart/templates/manifests.yaml \
+  https://raw.githubusercontent.com/kubevious/demos/main/guard/01-hipster-shop/network-policies-chart/templates/network-policy-adservice.yaml \
+  https://raw.githubusercontent.com/kubevious/demos/main/guard/01-hipster-shop/network-policies-chart/templates/network-policy-deny-all.yaml
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   echo "Validate HipsterShop NetworkPolicies Failed"

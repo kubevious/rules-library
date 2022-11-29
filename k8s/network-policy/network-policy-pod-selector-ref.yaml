@@ -16,12 +16,19 @@ spec:
       cache.apps.add(app, app.config.metadata?.labels);
     }
   rule: |
+    if (!config.spec?.podSelector) {
+      error("podSelector is not set");
+    }
     const podSelectorLabels = config.spec?.podSelector?.matchLabels;
-    if (!podSelectorLabels) {
-      error("podSelector.matchLabels is not set");
+    if (!podSelectorLabels)
+    {
       return;
     }
-
+    if (Object.keys(podSelectorLabels).length == 0)
+    {
+      return;
+    }
+    
     const apps = cache.apps.resolveSelector(podSelectorLabels)
     if (apps.length === 0)
     {
