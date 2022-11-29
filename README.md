@@ -55,6 +55,11 @@ Validate Ingress (extension) to Service reference.
 Validate Ingress to Service reference.
 
 
+### 📂 K8S/NETWORK-POLICY
+📜 **[network-policy-pod-selector-ref](k8s/network-policy/network-policy-pod-selector-ref.yaml)**.
+Validate NetworkPolicy to PodSpec reference.
+
+
 ### 📂 K8S/POD-SPEC
 📜 **[pod-spec-service-account-ref](k8s/pod-spec/service-account-ref.yaml)**.
 Validate PodSpec to ServiceAccount reference.

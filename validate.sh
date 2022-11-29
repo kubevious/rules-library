@@ -4,6 +4,7 @@ MY_DIR="$(dirname $MY_PATH)"
 
 cd ${MY_DIR}
 
+
 echo "> "
 echo "> Running HipsterShop Validate..."
 echo "> "
@@ -13,6 +14,7 @@ if [ $RESULT -ne 0 ]; then
   echo "Validate HipsterShop Failed"
   exit 1;
 fi
+
 
 echo "> "
 echo "> Running HipsterShop NetworkPolicies Validate..."
@@ -24,6 +26,7 @@ if [ $RESULT -ne 0 ]; then
   exit 1;
 fi
 
+
 echo "> "
 echo "> Running HipsterShop Istio Validate..."
 echo "> "
@@ -33,6 +36,7 @@ if [ $RESULT -ne 0 ]; then
   echo "Validate HipsterShop Istio Failed"
   exit 1;
 fi
+
 
 echo "> "
 echo "> Running Traefik Validate..."

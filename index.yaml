@@ -44,6 +44,11 @@ spec:
     category: k8s/ingress
     summary: |
       Validate Ingress to Service reference.
+  - name: network-policy-pod-selector-ref
+    path: k8s/network-policy/network-policy-pod-selector-ref.yaml
+    category: k8s/network-policy
+    summary: |
+      Validate NetworkPolicy to PodSpec reference.
   - name: pod-spec-service-account-ref
     path: k8s/pod-spec/service-account-ref.yaml
     category: k8s/pod-spec

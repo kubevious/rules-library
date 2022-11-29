@@ -14,7 +14,6 @@ if [ $RESULT -ne 0 ]; then
   exit 1;
 fi
 
-
 kustomize build runtime/kubeflow-pipelines.git/manifests/kustomize/env/platform-agnostic > runtime/kubeflow-env-platform-agnostic.yaml
 RESULT=$?
 if [ $RESULT -ne 0 ]; then

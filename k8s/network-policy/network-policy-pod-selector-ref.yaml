@@ -1,0 +1,113 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: network-policy-pod-selector-ref
+spec:
+  summary: |
+    Validate NetworkPolicy to PodSpec reference.
+  target: |
+    ApiVersion('networking.k8s.io/v1')
+      .Kind('NetworkPolicy')
+  cache: |
+    cache.apps = helpers.newLabelLookupDict();
+    for(const app of Shortcut("PodSpec")
+                       .many())
+    {
+      cache.apps.add(app, app.config.metadata?.labels);
+    }
+  rule: |
+    const podSelectorLabels = config.spec?.podSelector?.matchLabels;
+    if (!podSelectorLabels) {
+      error("podSelector.matchLabels is not set");
+      return;
+    }
+
+    const apps = cache.apps.resolveSelector(podSelectorLabels)
+    if (apps.length === 0)
+    {
+      error(`Could not find Applications for NetworkPolicy with ${helpers.labelsToString(podSelectorLabels)} labels`);
+      return;
+    }
+
+    for(const ingress of config.spec?.ingress ?? [])
+    {
+      for(const portRef of ingress.ports ?? [])
+      {
+        validateIngressPortRef(portRef);
+      }
+
+      for(const peer of ingress.from ?? [])
+      {
+        validatePeer(peer, 'Ingress');
+      }
+    }
+
+    for(const egress of config.spec?.egress ?? [])
+    {
+      for(const peer of egress.to ?? [])
+      {
+        validatePeer(peer, 'Egress');
+      }
+    }
+
+    function validateIngressPortRef(portRef)
+    {
+      if (!portRef.port) {
+        return;
+      }
+
+      const portRefProtocol = portRef.protocol ?? "TCP";
+
+      for(const app of apps)
+      {
+        const appPortMap = {};
+        for(const container of app?.config.spec?.containers ?? [])
+        {
+          for(const port of container.ports ?? [])
+          {
+            const protocol = port.protocol ?? "TCP";
+            appPortMap[port.containerPort] = protocol;
+            if (port.name) {
+              appPortMap[port.name] = protocol;
+            }
+          }
+        }
+
+        const appProtocol = appPortMap[portRef.port];
+        if (!appProtocol)
+        {
+          warning(`Could not find exposed port ${portRef.port} in ${app.name}`);
+        }
+        else
+        {
+          if (appProtocol !== portRefProtocol)
+          {
+            warning(`Expecting ${portRefProtocol} for port ${portRef.port} in ${app.name} but found ${appProtocol}`);
+          }
+        }
+      }
+    }
+
+    function validatePeer(peer, location)
+    {
+      const peerLabels = peer.podSelector?.matchLabels;
+      if (!peerLabels) {
+        return;
+      }
+
+      if (peer.namespaceSelector) {
+        warning(`namespaceSelectors not yet supported`);
+        return;
+      }
+
+      validatePeerInNamespace(peerLabels, location, null)
+    }
+
+    function validatePeerInNamespace(peerLabels, location, namespace)
+    {
+      const apps = cache.apps.resolveSelector(peerLabels)
+      if (apps.length === 0)
+      {
+        error(`Could not find ${location} peer for NetworkPolicy with ${helpers.labelsToString(peerLabels)} labels`);
+      }
+    }
