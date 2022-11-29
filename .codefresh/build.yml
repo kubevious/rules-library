@@ -171,7 +171,7 @@ steps:
     working_directory: ${{DEMOS_REPO_PATH}}
     commands:
       - kubevious --version
-      - kubevious guard --skip-community-rules ./index.yaml ${{SAMPLES_PATH}}/kubeflow/cluster-scoped-resources.yaml ${{SAMPLES_PATH}}/kubeflow/env-platform-agnostic.yaml ${{SAMPLES_PATH}}/kubeflow/webhook-server-tls.yaml
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{SAMPLES_PATH}}/kubeflow/cluster-scoped-resources.yaml ${{SAMPLES_PATH}}/kubeflow/env-platform-agnostic.yaml ${{SAMPLES_PATH}}/kubeflow/webhook-server-tls.yaml
 
   validate_prometheus:
     title: Validate Prometheus
@@ -180,7 +180,7 @@ steps:
     working_directory: ${{DEMOS_REPO_PATH}}
     commands:
       - kubevious --version
-      - kubevious guard --skip-community-rules ./index.yaml ${{SAMPLES_PATH}}/prometheus/prometheus.yaml
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{SAMPLES_PATH}}/prometheus/prometheus.yaml
 
   validate_grafana:
     title: Validate Grafana
@@ -189,7 +189,7 @@ steps:
     working_directory: ${{DEMOS_REPO_PATH}}
     commands:
       - kubevious --version
-      - kubevious guard --skip-community-rules ./index.yaml ${{SAMPLES_PATH}}/grafana/grafana.yaml
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{SAMPLES_PATH}}/grafana/grafana.yaml
       
   validate_istio_classic:
     title: Validate Istio Classic
@@ -198,7 +198,7 @@ steps:
     working_directory: ${{DEMOS_REPO_PATH}}
     commands:
       - kubevious --version
-      - kubevious guard --skip-community-rules ./index.yaml https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/bookinfo.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/istio-classic/bookinfo-gateway.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/istio-classic/destination-rule-all.yaml
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/bookinfo.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/istio-classic/bookinfo-gateway.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/istio-classic/destination-rule-all.yaml
 
   validate_istio_gateway_api:
     title: Validate Istio Gateway API
@@ -207,4 +207,4 @@ steps:
     working_directory: ${{DEMOS_REPO_PATH}}
     commands:
       - kubevious --version
-      - kubevious guard --skip-community-rules ./index.yaml https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml https://github.com/kubernetes-sigs/gateway-api/releases/download/v0.5.1/standard-install.yaml ${{SAMPLES_PATH}}/istio/secret-gateway-api-admission.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/bookinfo.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/bookinfo-gateway.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/bookinfo-versions.yaml
+      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml https://github.com/kubernetes-sigs/gateway-api/releases/download/v0.5.1/standard-install.yaml ${{SAMPLES_PATH}}/istio/secret-gateway-api-admission.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/bookinfo.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/bookinfo-gateway.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/bookinfo-versions.yaml
