@@ -14,7 +14,7 @@ spec:
       const gatewayItem = Api('gateway.networking.k8s.io')
                             .Kind('Gateway')
                             .name(gatewayRef.name)
-                            .name(gatewayRef.namespace)
+                            .namespace(gatewayRef.namespace)
                             .single();
       if (!gatewayItem)
       {
