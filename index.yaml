@@ -49,6 +49,11 @@ spec:
     category: k8s/gateway-api/gateway
     summary: |
       Validate Gateway to have unique listeners.
+  - name: hpa-scale-target-ref
+    path: k8s/hpa/hpa-scale-target-ref.yaml
+    category: k8s/hpa
+    summary: |
+      Validate HorizontalPodAutoscaler to scale target reference.
   - name: http-route-backend-ref
     path: k8s/gateway-api/http-route/backend-ref.yaml
     category: k8s/gateway-api/http-route
@@ -99,6 +104,11 @@ spec:
     category: k8s/pod-spec
     summary: |
       Validate PodSpec volume mount Secret reference.
+  - name: replica-count-check
+    path: k8s/workload/replica-count-check.yaml
+    category: k8s/workload
+    summary: |
+      Checks Deployments to have min/max replicas - with or without HPAs.
   - name: role-binding-role-ref
     path: k8s/rbac/role-binding-role-ref.yaml
     category: k8s/rbac

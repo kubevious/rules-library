@@ -70,6 +70,11 @@ Validate HTTPRoute to Backend reference.
 Validate HTTPRoute to Gateway reference.
 
 
+### 📂 K8S/HPA
+📜 **[hpa-scale-target-ref](k8s/hpa/hpa-scale-target-ref.yaml)**.
+Validate HorizontalPodAutoscaler to scale target reference.
+
+
 ### 📂 K8S/INGRESS
 📜 **[ingress-ext-service-ref](k8s/ingress/ingress-ext-service-ref.yaml)**.
 Validate Ingress (extension) to Service reference.
@@ -113,6 +118,11 @@ Validate RoleBinding and ClusterRoleBinding to ServiceAccount subject reference.
 ### 📂 K8S/SERVICE
 📜 **[service-selector-ref](k8s/service/service-selector-ref.yaml)**.
 Validate Service to PodSpec label selector reference.
+
+
+### 📂 K8S/WORKLOAD
+📜 **[replica-count-check](k8s/workload/replica-count-check.yaml)**.
+Checks Deployments to have min/max replicas - with or without HPAs.
 
 
 

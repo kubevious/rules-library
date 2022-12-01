@@ -1,0 +1,36 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: hpa-scale-target-ref
+spec:
+  summary: |
+    Validate HorizontalPodAutoscaler to scale target reference.
+  target: |
+    Api('autoscaling')
+      .Kind('HorizontalPodAutoscaler')
+  rule: |
+    if (!config.spec.scaleTargetRef) {
+      error("scaleTargetRef is not set");
+      return;
+    }
+    if (!config.spec.scaleTargetRef.name) {
+      error("scaleTargetRef.name is not set");
+      return;
+    }
+    if (!config.spec.scaleTargetRef.kind) {
+      error("scaleTargetRef.kind is not set");
+      return;
+    }
+    if (!config.spec.scaleTargetRef.apiVersion) {
+      error("scaleTargetRef.apiVersion is not set");
+      return;
+    }
+
+    const targetItem = ApiVersion(config.spec.scaleTargetRef.apiVersion)
+                          .Kind(config.spec.scaleTargetRef.kind)
+                          .name(config.spec.scaleTargetRef.name)
+                          .single();
+    if (!targetItem)
+    {
+      error(`Could not find ${config.spec.scaleTargetRef.apiVersion}/${config.spec.scaleTargetRef.kind} ${config.spec.scaleTargetRef.name}`);
+    }

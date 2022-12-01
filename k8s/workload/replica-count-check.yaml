@@ -1,0 +1,74 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: replica-count-check
+spec:
+  summary: |
+    Checks Deployments to have min/max replicas - with or without HPAs.
+  values:
+    minReplicas: 1
+    maxReplicas: 1000
+  target: |
+    ApiVersion('apps/v1')
+    .Kind('Deployment')
+  rule: |
+    const hpa = findHPA();
+    if (hpa)
+    {
+      const minReplicas = hpa.config.spec?.minReplicas ?? 1;
+      if (values.minReplicas)
+      {
+        if (minReplicas < values.minReplicas)
+        {
+          error(`HPA ${hpa.name} minReplicas should be at least ${values.minReplicas}`);
+        }
+      }
+      if (values.maxReplicas)
+      {
+        const maxReplicas = hpa.config.spec?.maxReplicas ?? minReplicas;
+        if (maxReplicas > values.maxReplicas)
+        {
+          error(`HPA ${hpa.name} maxReplicas should be at most ${values.maxReplicas}`);
+        }
+      }
+    }
+    else
+    {
+      const replicas = config.spec?.replicas ?? 1;
+      if (values.minReplicas)
+      {
+        if (replicas < values.minReplicas)
+        {
+          error(`Replica count should be at least ${values.minReplicas}`);
+        }
+      }
+      if (values.maxReplicas)
+      {
+        if (replicas > values.maxReplicas)
+        {
+          error(`Replica count should be at most ${values.maxReplicas}`);
+        }
+      }
+    }
+    
+    function findHPA()
+    {
+      for(const hpa of Api('autoscaling')
+                        .Kind('HorizontalPodAutoscaler')
+                        .many())
+      {
+        const scaleTargetRef = hpa.config?.spec?.scaleTargetRef;
+        if (scaleTargetRef)
+        {
+          if (scaleTargetRef.apiVersion === item.apiVersion && 
+              scaleTargetRef.kind === item.kind && 
+              scaleTargetRef.name === item.name)
+          {
+            return hpa;
+          }
+        }
+      }
+      return null;
+    }
+  application:
+    useApplicator: true
