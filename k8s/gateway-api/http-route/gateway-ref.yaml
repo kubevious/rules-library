@@ -4,7 +4,7 @@ metadata:
   name: http-route-gateway-ref
 spec:
   summary: |
-    Validate HTTPRoute to Gateways reference.
+    Validate HTTPRoute to Gateway reference.
   target: |
     Api('gateway.networking.k8s.io')
       .Kind('HTTPRoute')
@@ -22,6 +22,15 @@ spec:
           error(`Gateway ${gatewayRef.name} not found in namespace ${gatewayRef.namespace}`);
         } else {
           error(`Gateway ${gatewayRef.name} not found`);
+        }
+      }
+      else
+      {
+        if (gatewayRef.sectionName) {
+          const listener = _.find(gatewayItem.config?.spec.listeners, x => x.name === gatewayRef.sectionName);
+          if (!listener) {
+              error(`Could not find listener ${gatewayRef.sectionName} in Gateway ${gatewayRef.name}`);
+          }
         }
       }
     }

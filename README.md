@@ -48,13 +48,26 @@ Validate ContainerSpec environment variable Secret reference.
 Validate ContainerSpec image to have non latest tag.
 
 
-### 📂 K8S/GATEWAY-API
-📜 **[gateway-class-ref](k8s/gateway-api/gateway-class-ref.yaml)**.
-Validate Gateway to Class reference.
+### 📂 K8S/GATEWAY-API/GATEWAY
+📜 **[gateway-certificate-secret-ref](k8s/gateway-api/gateway/certificate-ref.yaml)**.
+Validate Gateway to Certificate Secret reference.
 
 
-📜 **[http-route-gateway-ref](k8s/gateway-api/http-route-gateway-ref.yaml)**.
-Validate HTTPRoute to Gateways reference.
+📜 **[gateway-class-ref](k8s/gateway-api/gateway/gateway-class-ref.yaml)**.
+Validate Gateway to GatewayClass reference.
+
+
+📜 **[gateway-unique-listeners](k8s/gateway-api/gateway/unique-listeners.yaml)**.
+Validate Gateway to have unique listeners.
+
+
+### 📂 K8S/GATEWAY-API/HTTP-ROUTE
+📜 **[http-route-backend-ref](k8s/gateway-api/http-route/backend-ref.yaml)**.
+Validate HTTPRoute to Backend reference.
+
+
+📜 **[http-route-gateway-ref](k8s/gateway-api/http-route/gateway-ref.yaml)**.
+Validate HTTPRoute to Gateway reference.
 
 
 ### 📂 K8S/INGRESS

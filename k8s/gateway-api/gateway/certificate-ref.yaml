@@ -1,0 +1,36 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: gateway-certificate-secret-ref
+spec:
+  summary: |
+    Validate Gateway to Certificate Secret reference.
+  target: |
+    Api('gateway.networking.k8s.io')
+      .Kind('Gateway')
+  rule: |
+    for(const listener of config.spec?.listeners ?? [])
+    {
+      for(const certRef of listener.tls?.certificateRefs ?? [])
+      {
+        if (certRef.kind == "Secret")
+        {
+          if (!certRef.name)
+          {
+            error(`Missing tls.certificateRefs.name in listener ${listener.name}`);
+          }
+          else
+          {
+            const secret = Shortcut("Secret", certRef.name)
+                                .single();
+  
+            if (!secret)
+            {
+              error(`Could not find tls.certificateRefs Secret ${certRef.name} referenced in listener ${listener.name}`);
+            }
+          }
+
+        }
+      }
+    }
+    

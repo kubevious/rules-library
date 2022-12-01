@@ -34,16 +34,31 @@ spec:
     category: k8s/container
     summary: |
       Validate ContainerSpec image to have non latest tag.
+  - name: gateway-certificate-secret-ref
+    path: k8s/gateway-api/gateway/certificate-ref.yaml
+    category: k8s/gateway-api/gateway
+    summary: |
+      Validate Gateway to Certificate Secret reference.
   - name: gateway-class-ref
-    path: k8s/gateway-api/gateway-class-ref.yaml
-    category: k8s/gateway-api
+    path: k8s/gateway-api/gateway/gateway-class-ref.yaml
+    category: k8s/gateway-api/gateway
     summary: |
-      Validate Gateway to Class reference.
+      Validate Gateway to GatewayClass reference.
+  - name: gateway-unique-listeners
+    path: k8s/gateway-api/gateway/unique-listeners.yaml
+    category: k8s/gateway-api/gateway
+    summary: |
+      Validate Gateway to have unique listeners.
+  - name: http-route-backend-ref
+    path: k8s/gateway-api/http-route/backend-ref.yaml
+    category: k8s/gateway-api/http-route
+    summary: |
+      Validate HTTPRoute to Backend reference.
   - name: http-route-gateway-ref
-    path: k8s/gateway-api/http-route-gateway-ref.yaml
-    category: k8s/gateway-api
+    path: k8s/gateway-api/http-route/gateway-ref.yaml
+    category: k8s/gateway-api/http-route
     summary: |
-      Validate HTTPRoute to Gateways reference.
+      Validate HTTPRoute to Gateway reference.
   - name: ingress-ext-service-ref
     path: k8s/ingress/ingress-ext-service-ref.yaml
     category: k8s/ingress

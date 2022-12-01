@@ -1,0 +1,38 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: http-route-backend-ref
+spec:
+  summary: |
+    Validate HTTPRoute to Backend reference.
+  target: |
+    Api('gateway.networking.k8s.io')
+      .Kind('HTTPRoute')
+  rule: |
+    for(const rule of config.spec?.rules ?? [])
+    {
+      for(const backendRef of rule.backendRefs ?? [])
+      {
+        if (!backendRef.name)
+        {
+          error('backendRef.name is required');
+        }
+        else
+        {
+          const group = backendRef.group ?? "";
+          const kind = backendRef.kind ?? "Service";
+          const backendItem = Api(group)
+                                .Kind(kind)
+                                .name(backendRef.name)
+                                .namespace(backendRef.namespace)
+                                .single()
+          if (!backendItem)
+          {
+            if (!helpers.gateway.isInternalService(group, kind, backendRef.name))
+            {
+              error(`Could not find backend reference: ${group} :: ${kind} :: ${backendRef.name}`);
+            }
+          }
+        }
+      }
+    }

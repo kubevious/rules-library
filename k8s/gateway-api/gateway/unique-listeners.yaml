@@ -1,0 +1,17 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: gateway-unique-listeners
+spec:
+  summary: |
+    Validate Gateway to have unique listeners.
+  target: |
+    Api('gateway.networking.k8s.io')
+      .Kind('Gateway')
+  rule: |
+    const duplicates = helpers.findDuplicates(config.spec?.listeners, x => x.name);
+    if (duplicates.length > 0)
+    {
+      error(`Duplicate listeners found: [${duplicates.join(', ')}]`);
+    }
+    

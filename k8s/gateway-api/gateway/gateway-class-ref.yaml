@@ -4,7 +4,7 @@ metadata:
   name: gateway-class-ref
 spec:
   summary: |
-    Validate Gateway to Class reference.
+    Validate Gateway to GatewayClass reference.
   target: |
     Api('gateway.networking.k8s.io')
       .Kind('Gateway')
