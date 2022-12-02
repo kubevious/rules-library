@@ -1,0 +1,41 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: argo-rollout-analysis-template-ref
+spec:
+  summary: |
+    Validate Argo Rollout to Analysis Template reference.
+  target: |
+    Api('argoproj.io')
+      .Kind('Rollout')
+  rule: |
+    for (const canaryStep of config.spec?.strategy?.canary?.steps ?? {})
+    {
+      if (canaryStep.analysis)
+      {
+        for(const analysisTemplateRef of canaryStep.analysis.templates ?? [])
+        {
+          const kind = analysisTemplateRef.clusterScope ? 'ClusterAnalysisTemplate' : 'AnalysisTemplate';
+          const analysisTemplate = Api('argoproj.io')
+                                    .Kind(kind)
+                                    .name(analysisTemplateRef.templateName)
+                                    .isClusterScope(analysisTemplateRef.clusterScope)
+                                    .single();
+          if (!analysisTemplate)
+          {
+            error(`Could not find ${kind} ${analysisTemplateRef.templateName}`);
+          }
+          else
+          {
+            const argsDict = _.makeDict(analysisTemplate.config.spec?.args, x => x.name, x => true);
+            for(const myArg of canaryStep.analysis.args ?? [])
+            {
+              if (!argsDict[myArg.name])
+              {
+                error(`Could not find argument ${myArg.name} in ${kind} ${analysisTemplateRef.templateName}`);
+              }
+            }
+          }
+        }
+      }
+    }

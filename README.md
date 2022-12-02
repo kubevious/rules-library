@@ -17,6 +17,11 @@ Kubevious rules are expressed in a domain-specific language called [Kubik](https
 [//]: # (OR PRE-COMMIT HOOK)
 [//]: # ($ kubevious install-git-hook rule-library .)
 
+### 📂 ARGO-ROLLOUT
+📜 **[argo-rollout-analysis-template-ref](argo-rollout/rollout-analysis-template-ref.yaml)**.
+Validate Argo Rollout to Analysis Template reference.
+
+
 ### 📂 CERT-MANAGER
 📜 **[certificate-to-issuer-ref](cert-manager/certificate-to-issuer-ref.yaml)**.
 Validate CertManager Certificate to Issuer reference.
