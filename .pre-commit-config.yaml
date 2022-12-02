@@ -1,5 +1,5 @@
 repos:
   - repo: https://github.com/kubevious/cli
-    rev: v1.0.27
+    rev: v1.0.28
     hooks:
       - id: kubevious-index-library
