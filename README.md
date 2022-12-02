@@ -6,132 +6,98 @@ This repository represents a library of rules for [Kubevious CLI](https://github
 
 Kubevious rules are expressed in a domain-specific language called [Kubik](https://github.com/kubevious/kubik).
 
-![Kubevious CLI Video](https://raw.githubusercontent.com/kubevious/media/master/cli/intro/demo_light.svg)
+![Kubevious CLI Video](https://raw.githubusercontent.com/kubevious/media/master/cli/intro/demo_light.gif)
 
-## Library Rules
+## Library Contents
 
-[//]: # (BEGIN_RULES_DESCRIPTION)
+[//]: # "BEGIN_RULES_DESCRIPTION"
 
-[//]: # (!!! DO NOT EDIT. AUTO-GENERATED WITH:)
-[//]: # ($ kubevious index-library .)
-[//]: # (OR PRE-COMMIT HOOK)
-[//]: # ($ kubevious install-git-hook rule-library .)
+[//]: # "!!! DO NOT EDIT. AUTO-GENERATED WITH:"
+[//]: # "$ kubevious index-library ."
+[//]: # "OR PRE-COMMIT HOOK"
+[//]: # "$ kubevious install-git-hook rule-library ."
 
-### 📂 ARGO-ROLLOUT
-📜 **[argo-rollout-analysis-template-ref](argo-rollout/rollout-analysis-template-ref.yaml)**.
-Validate Argo Rollout to Analysis Template reference.
+Total Rules: 25
+### Categories:
+- [📂 ARGO-ROLLOUT (1)](#-argo-rollout)
+- [📂 CERT-MANAGER (1)](#-cert-manager)
+- [📂 ISTIO (1)](#-istio)
+- [📂 K8S/CONTAINER (5)](#-k8s-container)
+- [📂 K8S/GATEWAY-API/GATEWAY (3)](#-k8s-gateway-api/gateway)
+- [📂 K8S/GATEWAY-API/HTTP-ROUTE (2)](#-k8s-gateway-api/http-route)
+- [📂 K8S/HPA (1)](#-k8s-hpa)
+- [📂 K8S/INGRESS (2)](#-k8s-ingress)
+- [📂 K8S/NETWORK-POLICY (1)](#-k8s-network-policy)
+- [📂 K8S/POD-SPEC (4)](#-k8s-pod-spec)
+- [📂 K8S/RBAC (2)](#-k8s-rbac)
+- [📂 K8S/SERVICE (1)](#-k8s-service)
+- [📂 K8S/WORKLOAD (1)](#-k8s-workload)
+### Rules:
+#### 📂 ARGO-ROLLOUT
+📜 **[Validate Argo Rollout to Analysis Template reference.](argo-rollout/rollout-analysis-template-ref.yaml)**
 
+#### 📂 CERT-MANAGER
+📜 **[Validate CertManager Certificate to Issuer reference.](cert-manager/certificate-to-issuer-ref.yaml)**
 
-### 📂 CERT-MANAGER
-📜 **[certificate-to-issuer-ref](cert-manager/certificate-to-issuer-ref.yaml)**.
-Validate CertManager Certificate to Issuer reference.
+#### 📂 ISTIO
+📜 **[Validate Istio VirtualService to IstioGateway reference.](istio/virtual-service-to-gateway-ref.yaml)**
 
+#### 📂 K8S/CONTAINER
+📜 **[Validate ContainerSpec environment variable ConfigMap reference.](k8s/container/env-config-map-ref.yaml)**
 
-### 📂 ISTIO
-📜 **[istio-virtual-service-to-gateway-ref](istio/virtual-service-to-gateway-ref.yaml)**.
-Validate Istio VirtualService to IstioGateway reference.
+📜 **[Validate ContainerSpec envFrom variables projection ConfigMap reference.](k8s/container/env-from-config-map-ref.yaml)**
 
+📜 **[Validate ContainerSpec envFrom variables projection Secret reference.](k8s/container/env-from-secret-ref.yaml)**
 
-### 📂 K8S/CONTAINER
-📜 **[container-env-config-map-ref](k8s/container/env-config-map-ref.yaml)**.
-Validate ContainerSpec environment variable ConfigMap reference.
+📜 **[Validate ContainerSpec environment variable Secret reference.](k8s/container/env-secret-ref.yaml)**
 
+📜 **[Validate ContainerSpec image to have non latest tag.](k8s/container/latest-image.yaml)**
 
-📜 **[container-env-from-config-map-ref](k8s/container/env-from-config-map-ref.yaml)**.
-Validate ContainerSpec envFrom variables projection ConfigMap reference.
+#### 📂 K8S/GATEWAY-API/GATEWAY
+📜 **[Validate Gateway to Certificate Secret reference.](k8s/gateway-api/gateway/certificate-ref.yaml)**
 
+📜 **[Validate Gateway to GatewayClass reference.](k8s/gateway-api/gateway/gateway-class-ref.yaml)**
 
-📜 **[container-env-from-secret-ref](k8s/container/env-from-secret-ref.yaml)**.
-Validate ContainerSpec envFrom variables projection Secret reference.
+📜 **[Validate Gateway to have unique listeners.](k8s/gateway-api/gateway/unique-listeners.yaml)**
 
+#### 📂 K8S/GATEWAY-API/HTTP-ROUTE
+📜 **[Validate HTTPRoute to Backend reference.](k8s/gateway-api/http-route/backend-ref.yaml)**
 
-📜 **[container-env-secret-ref](k8s/container/env-secret-ref.yaml)**.
-Validate ContainerSpec environment variable Secret reference.
+📜 **[Validate HTTPRoute to Gateway reference.](k8s/gateway-api/http-route/gateway-ref.yaml)**
 
+#### 📂 K8S/HPA
+📜 **[Validate HorizontalPodAutoscaler to scale target reference.](k8s/hpa/hpa-scale-target-ref.yaml)**
 
-📜 **[container-latest-image](k8s/container/latest-image.yaml)**.
-Validate ContainerSpec image to have non latest tag.
+#### 📂 K8S/INGRESS
+📜 **[Validate Ingress (extension) to Service reference.](k8s/ingress/ingress-ext-service-ref.yaml)**
 
+📜 **[Validate Ingress to Service reference.](k8s/ingress/ingress-service-ref.yaml)**
 
-### 📂 K8S/GATEWAY-API/GATEWAY
-📜 **[gateway-certificate-secret-ref](k8s/gateway-api/gateway/certificate-ref.yaml)**.
-Validate Gateway to Certificate Secret reference.
+#### 📂 K8S/NETWORK-POLICY
+📜 **[Validate NetworkPolicy to PodSpec reference.](k8s/network-policy/network-policy-pod-selector-ref.yaml)**
 
+#### 📂 K8S/POD-SPEC
+📜 **[Validate PodSpec to ServiceAccount reference.](k8s/pod-spec/service-account-ref.yaml)**
 
-📜 **[gateway-class-ref](k8s/gateway-api/gateway/gateway-class-ref.yaml)**.
-Validate Gateway to GatewayClass reference.
+📜 **[Validate PodSpec volume mount ConfigMap reference.](k8s/pod-spec/volume-config-map-ref.yaml)**
 
+📜 **[Validate PodSpec volume mount PersistentVolumeClaim reference.](k8s/pod-spec/volume-pvc-ref.yaml)**
 
-📜 **[gateway-unique-listeners](k8s/gateway-api/gateway/unique-listeners.yaml)**.
-Validate Gateway to have unique listeners.
+📜 **[Validate PodSpec volume mount Secret reference.](k8s/pod-spec/volume-secret-ref.yaml)**
 
+#### 📂 K8S/RBAC
+📜 **[Validate RoleBinding and ClusterRoleBinding to Role and ClusterRole reference.](k8s/rbac/role-binding-role-ref.yaml)**
 
-### 📂 K8S/GATEWAY-API/HTTP-ROUTE
-📜 **[http-route-backend-ref](k8s/gateway-api/http-route/backend-ref.yaml)**.
-Validate HTTPRoute to Backend reference.
+📜 **[Validate RoleBinding and ClusterRoleBinding to ServiceAccount subject reference.](k8s/rbac/role-binding-service-account-ref.yaml)**
 
+#### 📂 K8S/SERVICE
+📜 **[Validate Service to PodSpec label selector reference.](k8s/service/service-selector-ref.yaml)**
 
-📜 **[http-route-gateway-ref](k8s/gateway-api/http-route/gateway-ref.yaml)**.
-Validate HTTPRoute to Gateway reference.
-
-
-### 📂 K8S/HPA
-📜 **[hpa-scale-target-ref](k8s/hpa/hpa-scale-target-ref.yaml)**.
-Validate HorizontalPodAutoscaler to scale target reference.
-
-
-### 📂 K8S/INGRESS
-📜 **[ingress-ext-service-ref](k8s/ingress/ingress-ext-service-ref.yaml)**.
-Validate Ingress (extension) to Service reference.
-
-
-📜 **[ingress-service-ref](k8s/ingress/ingress-service-ref.yaml)**.
-Validate Ingress to Service reference.
-
-
-### 📂 K8S/NETWORK-POLICY
-📜 **[network-policy-pod-selector-ref](k8s/network-policy/network-policy-pod-selector-ref.yaml)**.
-Validate NetworkPolicy to PodSpec reference.
-
-
-### 📂 K8S/POD-SPEC
-📜 **[pod-spec-service-account-ref](k8s/pod-spec/service-account-ref.yaml)**.
-Validate PodSpec to ServiceAccount reference.
+#### 📂 K8S/WORKLOAD
+📜 **[Checks Deployments to have min/max replicas - with or without HPAs.](k8s/workload/replica-count-check.yaml)**
 
 
-📜 **[pod-spec-volume-config-map-ref](k8s/pod-spec/volume-config-map-ref.yaml)**.
-Validate PodSpec volume mount ConfigMap reference.
-
-
-📜 **[pod-spec-volume-pvc-ref](k8s/pod-spec/volume-pvc-ref.yaml)**.
-Validate PodSpec volume mount PersistentVolumeClaim reference.
-
-
-📜 **[pod-spec-volume-secret-ref](k8s/pod-spec/volume-secret-ref.yaml)**.
-Validate PodSpec volume mount Secret reference.
-
-
-### 📂 K8S/RBAC
-📜 **[role-binding-role-ref](k8s/rbac/role-binding-role-ref.yaml)**.
-Validate RoleBinding and ClusterRoleBinding to Role and ClusterRole reference.
-
-
-📜 **[role-binding-service-account-ref](k8s/rbac/role-binding-service-account-ref.yaml)**.
-Validate RoleBinding and ClusterRoleBinding to ServiceAccount subject reference.
-
-
-### 📂 K8S/SERVICE
-📜 **[service-selector-ref](k8s/service/service-selector-ref.yaml)**.
-Validate Service to PodSpec label selector reference.
-
-
-### 📂 K8S/WORKLOAD
-📜 **[replica-count-check](k8s/workload/replica-count-check.yaml)**.
-Checks Deployments to have min/max replicas - with or without HPAs.
-
-
-
-[//]: # (END_RULES_DESCRIPTION)
+[//]: # "END_RULES_DESCRIPTION"
 
 ## Contributing
 To submit your rules to the library follow the steps:
