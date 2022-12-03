@@ -17,7 +17,7 @@ Kubevious rules are expressed in a domain-specific language called [Kubik](https
 [//]: # "OR PRE-COMMIT HOOK"
 [//]: # "$ kubevious install-git-hook rule-library ."
 
-Total Rules: 26
+Total Rules: 27
 ### Categories:
 - [📂 ARGO-ROLLOUT (1)](#-argo-rollout)
 - [📂 CERT-MANAGER (1)](#-cert-manager)
@@ -32,7 +32,7 @@ Total Rules: 26
 - [📂 K8S/RBAC (2)](#-k8srbac)
 - [📂 K8S/SERVICE (1)](#-k8sservice)
 - [📂 K8S/WORKLOAD (1)](#-k8sworkload)
-- [📂 KONG (1)](#-kong)
+- [📂 KONG (2)](#-kong)
 ### Rules:
 #### 📂 ARGO-ROLLOUT
 📜 **[Validate Argo Rollout to Analysis Template reference.](argo-rollout/rollout-analysis-template-ref.yaml)**
@@ -99,6 +99,8 @@ Total Rules: 26
 
 #### 📂 KONG
 📜 **[Validate KongConsumer to Credential Secret reference.](kong/consumer-to-credential-secret-ref.yaml)**
+
+📜 **[Validate Ingress and Service to Kong Plugin reference](kong/plugin-ref.yaml)**
 
 
 [//]: # "END_RULES_DESCRIPTION"

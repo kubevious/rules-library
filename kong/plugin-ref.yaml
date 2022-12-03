@@ -1,0 +1,38 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: kong-plugin-ref
+spec:
+  summary: |
+    Validate Ingress and Service to Kong Plugin reference
+  target: |
+    Union(
+      Api('')
+        .Kind("Service"),
+      Api('networking.k8s.io')
+        .Kind("Ingress"),
+      Api('extensions')
+        .Kind("Ingress"),
+    )
+  rule: |
+    let pluginsStr = item.annotations['konghq.com/plugins'];
+    if (!pluginsStr) {
+      return;
+    }
+    const plugins = pluginsStr.split(',');
+    for(const pluginName of plugins)
+    {
+      const pluginItem = First(
+          Api('configuration.konghq.com')
+              .Kind('KongPlugin')
+              .name(pluginName),
+          Api('configuration.konghq.com')
+              .Kind('KongClusterPlugin')
+              .name(pluginName)
+              .isClusterScope(true)
+        ).single();
+
+      if (!pluginItem) {
+        error(`Could not find Plugin ${pluginName}`);
+      }  
+    }
