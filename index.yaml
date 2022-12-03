@@ -68,6 +68,10 @@ spec:
     path: istio/virtual-service-to-gateway-ref.yaml
     category: istio
     summary: Validate Istio VirtualService to IstioGateway reference.
+  - name: kong-consumer-to-credential-secret-ref
+    path: kong/consumer-to-credential-secret-ref.yaml
+    category: kong
+    summary: Validate KongConsumer to Credential Secret reference.
   - name: network-policy-pod-selector-ref
     path: k8s/network-policy/network-policy-pod-selector-ref.yaml
     category: k8s/network-policy
