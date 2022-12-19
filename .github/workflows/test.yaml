@@ -1,0 +1,43 @@
+on: [push]
+
+jobs:
+  kubevious_validation:
+    runs-on: ubuntu-latest
+    name: Validation Run
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Checkout Demos
+        uses: actions/checkout@v3
+        with:
+          repo: kubevious/demos
+          path: demos.git
+      - name: Checkout KubeFlow
+        uses: actions/checkout@v3
+        with:
+          repo: kubeflow/pipelines
+          path: kubeflow-pipelines.git
+      - name: Validation of Prometheus
+        id: prometheus-validation
+        uses: kubevious/cli@main
+        with:
+          helm_repo_url: https://prometheus-community.github.io/helm-charts
+          helm_repo_name: prometheus-community
+          helm_chart: prometheus
+          helm_namespace: prometheus
+          helm_include_crds: true
+      - name: Validation of Traefik
+        id: traefik-validation
+        uses: kubevious/cli@main
+        with:
+          helm_repo_url: https://traefik.github.io/charts
+          helm_repo_name: traefik
+          helm_chart: traefik
+          helm_namespace: traefik
+          helm_include_crds: true
+      - name: Validation of KubeFlow
+        id: kubeflow-validation
+        uses: kubevious/cli@main
+        with:
+          manifests: kubeflow-pipelines.git/manifests/kustomize/cluster-scoped-resources kubeflow-pipelines.git/manifests/kustomize/env/platform-agnostic
+          mocks: demos.git/mocks/kubeflow/webhook-server-tls.yaml
