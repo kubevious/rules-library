@@ -56,69 +56,9 @@ steps:
       - cd ${{DEMOS_REPO_PATH}}
       - ls -la
 
-  prepare_chart_traefik:
-    title: Prepare Traefik Charts
-    stage: prepare
-    image: kubevious/cicd_deployer:latest
-    working_directory: ${{SAMPLES_PATH}}
-    commands:
-      - helm version
-      - helm repo add traefik https://traefik.github.io/charts
-      - ls -la
-      - rm -rf traefik
-      - mkdir traefik
-      - helm template traefik/traefik --include-crds > traefik/traefik.yaml
-
-  prepare_chart_prometheus:
-    title: Prepare Prometheus Charts
-    stage: prepare
-    image: kubevious/cicd_deployer:latest
-    working_directory: ${{SAMPLES_PATH}}
-    commands:
-      - helm version
-      - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-      - ls -la
-      - rm -rf prometheus
-      - mkdir prometheus
-      - helm template prometheus-community/prometheus > prometheus/prometheus.yaml
-
-  prepare_chart_grafana:
-    title: Prepare Grafana Charts
-    stage: prepare
-    image: kubevious/cicd_deployer:latest
-    working_directory: ${{SAMPLES_PATH}}
-    commands:
-      - helm version
-      - helm repo add grafana https://grafana.github.io/helm-charts
-      - ls -la
-      - rm -rf grafana
-      - mkdir grafana
-      - helm template grafana/grafana --namespace grafana --set persistence.enabled=true > grafana/grafana.yaml
-
-  prepare_chart_kubeflow:
-    title: Prepare Kubeflow Charts
-    stage: prepare
-    image: kubevious/cicd_deployer:latest
-    working_directory: ${{SAMPLES_PATH}}
-    commands:
-      - ls -la
-      - rm -rf kubeflow
-      - rm -rf kubeflow-pipelines.git
-      - mkdir kubeflow
-      - git clone https://github.com/kubeflow/pipelines.git kubeflow-pipelines.git
-      - kustomize build kubeflow-pipelines.git/manifests/kustomize/cluster-scoped-resources > kubeflow/cluster-scoped-resources.yaml
-      - kustomize build kubeflow-pipelines.git/manifests/kustomize/env/platform-agnostic > kubeflow/env-platform-agnostic.yaml
-      - |
-        cat >kubeflow/webhook-server-tls.yaml <<EOL
-        apiVersion: v1
-        kind: Secret
-        metadata:
-          name: webhook-server-tls
-          namespace: kubeflow
-        EOL
 
   prepare_istio:
-    title: Prepare Kubeflow Charts
+    title: Prepare Istio Charts
     stage: prepare
     image: kubevious/cicd_deployer:latest
     working_directory: ${{SAMPLES_PATH}}
@@ -135,81 +75,6 @@ steps:
           namespace: gateway-system
         EOL
 
-  validate_hipster:
-    title: Validate Hipster
-    stage: test
-    image: 'kubevious/cli:latest'
-    working_directory: ${{DEMOS_REPO_PATH}}
-    commands:
-      - kubevious --version
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/hipster-chart/templates/
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/hipster-chart/templates/ ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/network-policies-chart/templates/
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/hipster-chart/templates/ ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop/istio-chart/templates/ https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml
-
-  validate_voter:
-    title: Validate Voter
-    stage: test
-    image: 'kubevious/cli:latest'
-    working_directory: ${{DEMOS_REPO_PATH}}
-    commands:
-      - kubevious --version
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/guard/02-voter-app/voter-chart/templates/
-
-  validate_traefik:
-    title: Validate Traefik
-    stage: test
-    image: 'kubevious/cli:latest'
-    working_directory: ${{DEMOS_REPO_PATH}}
-    commands:
-      - kubevious --version
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{SAMPLES_PATH}}/traefik.yaml
-      
-  validate_kubeflow:
-    title: Validate Kubeflow
-    stage: test
-    image: 'kubevious/cli:latest'
-    working_directory: ${{DEMOS_REPO_PATH}}
-    commands:
-      - kubevious --version
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{SAMPLES_PATH}}/kubeflow/cluster-scoped-resources.yaml ${{SAMPLES_PATH}}/kubeflow/env-platform-agnostic.yaml ${{SAMPLES_PATH}}/kubeflow/webhook-server-tls.yaml
-
-  validate_prometheus:
-    title: Validate Prometheus
-    stage: test
-    image: 'kubevious/cli:latest'
-    working_directory: ${{DEMOS_REPO_PATH}}
-    commands:
-      - kubevious --version
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{SAMPLES_PATH}}/prometheus/prometheus.yaml
-
-  validate_grafana:
-    title: Validate Grafana
-    stage: test
-    image: 'kubevious/cli:latest'
-    working_directory: ${{DEMOS_REPO_PATH}}
-    commands:
-      - kubevious --version
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{SAMPLES_PATH}}/grafana/grafana.yaml
-      
-  validate_istio_classic:
-    title: Validate Istio Classic
-    stage: test
-    image: 'kubevious/cli:latest'
-    working_directory: ${{DEMOS_REPO_PATH}}
-    commands:
-      - kubevious --version
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/bookinfo.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/istio-classic/bookinfo-gateway.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/istio-classic/destination-rule-all.yaml
-
-  validate_istio_gateway_api:
-    title: Validate Istio Gateway API
-    stage: test
-    image: 'kubevious/cli:latest'
-    working_directory: ${{DEMOS_REPO_PATH}}
-    commands:
-      - kubevious --version
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml https://github.com/kubernetes-sigs/gateway-api/releases/download/v0.5.1/standard-install.yaml ${{SAMPLES_PATH}}/istio/secret-gateway-api-admission.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/bookinfo.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/mock-gateway-class.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/bookinfo-gateway.yaml https://raw.githubusercontent.com/kubevious/demos/main/guard/10-istio-bookinfo/gateway-api/bookinfo-versions.yaml
-
-
   validate_argo_rollout_sample:
     title: Validate Argo Rollout Sample
     stage: test
@@ -218,3 +83,99 @@ steps:
     commands:
       - kubevious --version
       - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/crds/argo-rollouts/crds.yaml ${{DEMOS_REPO_PATH}}/guard/40-argo-rollout
+
+
+  # TESTS
+  parallel_tests:
+    type: parallel
+    stage: test
+    steps:
+
+      validate_traefik_chart:
+        title: Validate Traefik Chart
+        stage: package
+        image: 'kubevious/cli:latest'
+        working_directory: ${{SAMPLES_PATH}}
+        commands:    
+          - helm version
+          - helm repo add traefik https://traefik.github.io/charts
+          - helm template traefik/traefik --include-crds > traefik.yaml
+          - kubevious lint traefik.yaml
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml traefik.yaml
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml @helm@traefik/traefik@crds=include
+
+      validate_prometheus_chart:
+        title: Validate Prometheus Chart
+        stage: package
+        image: 'kubevious/cli:latest'
+        working_directory: ${{SAMPLES_PATH}}
+        commands:    
+          - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          - kubevious lint @helm@prometheus-community/prometheus
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml @helm@prometheus-community/prometheus
+
+      validate_grafana_chart:
+        title: Validate Prometheus Chart
+        stage: package
+        image: 'kubevious/cli:latest'
+        working_directory: ${{SAMPLES_PATH}}
+        commands:    
+          - helm repo add grafana https://grafana.github.io/helm-charts
+          - helm template grafana/grafana --namespace grafana --set persistence.enabled=true > grafana.yaml
+          - kubevious lint grafana.yaml
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml grafana.yaml
+
+      validate_kubeflow:
+        title: Validate Kubeflow
+        stage: package
+        image: 'kubevious/cli:latest'
+        working_directory: ${{SAMPLES_PATH}}
+        commands:
+          - ls -la
+          - rm -rf kubeflow-pipelines.git
+          - git clone https://github.com/kubeflow/pipelines.git kubeflow-pipelines.git
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml kubeflow-pipelines.git/manifests/kustomize/cluster-scoped-resources kubeflow-pipelines.git/manifests/kustomize/env/platform-agnostic ${{DEMOS_REPO_PATH}}/mocks/kubeflow/webhook-server-tls.yaml
+          
+      validate_istio:
+        title: Validate Istio Chart
+        stage: package
+        image: 'kubevious/cli:latest'
+        working_directory: ${{DEMOS_REPO_PATH}}/guard/10-istio-bookinfo
+        commands:
+          - ls -la
+          - echo "Validating Istio Classic..."
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml bookinfo.yaml istio-classic/bookinfo-gateway.yaml istio-classic/destination-rule-all.yaml https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml 
+          - echo "Validating Istio Gateway API..."
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml bookinfo.yaml gateway-api/mock-gateway-class.yaml gateway-api/bookinfo-gateway.yaml gateway-api/bookinfo-versions.yaml ${{DEMOS_REPO_PATH}}/mocks/istio/secret-gateway-api-admission.yaml ${{DEMOS_REPO_PATH}}/crds/gateway-api/standard.yaml
+
+      validate_hipster_simple:
+        title: Validate Hipster Chart
+        stage: package
+        image: 'kubevious/cli:latest'
+        working_directory: ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop
+        commands:
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml hipster-chart
+
+      validate_hipster_network_policies:
+        title: Validate Hipster Network Policies
+        stage: package
+        image: 'kubevious/cli:latest'
+        working_directory: ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop
+        commands:
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml hipster-chart network-policies-chart
+
+      validate_hipster_network-policies:
+        title: Validate Hipster Istio
+        stage: package
+        image: 'kubevious/cli:latest'
+        working_directory: ${{DEMOS_REPO_PATH}}/guard/01-hipster-shop
+        commands:
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml hipster-chart istio-chart https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml
+
+      validate_voter:
+        title: Validate Voter App
+        stage: package
+        image: 'kubevious/cli:latest'
+        working_directory: ${{DEMOS_REPO_PATH}}/guard/02-voter-app
+        commands:
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml voter-chart
