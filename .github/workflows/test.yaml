@@ -53,9 +53,9 @@ jobs:
         id: carvel-ytt-template
         uses: vmware-tanzu/carvel-setup-action@v1
       - run: |
-          ytt -f carvel-ytt.git/examples/playground/getting-started/example-hello-world/config.yml > example.yaml
+          ytt -f carvel-ytt.git/examples/playground/getting-started/example-hello-world/config.yml > ytt-example.yaml
       - name: Validate Carvel-YTT
         id: carvel-ytt-validation
         uses: kubevious/cli@main
         with:
-          manifests: carvel-ytt.git/example.yaml
+          manifests: ytt-example.yaml
