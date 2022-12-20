@@ -57,6 +57,5 @@ jobs:
       - name: Validate Carvel-YTT
         id: carvel-ytt-validation
         uses: kubevious/cli@main
-        working-directory: carvel-ytt.git
         with:
           manifests: carvel-ytt.git/example.yaml
