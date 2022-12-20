@@ -10,12 +10,12 @@ jobs:
       - name: Checkout Demos
         uses: actions/checkout@v3
         with:
-          repo: kubevious/demos
+          repository: kubevious/demos
           path: demos.git
       - name: Checkout KubeFlow
         uses: actions/checkout@v3
         with:
-          repo: kubeflow/pipelines
+          repository: kubeflow/pipelines
           path: kubeflow-pipelines.git
       - name: Validation of Prometheus
         id: prometheus-validation
