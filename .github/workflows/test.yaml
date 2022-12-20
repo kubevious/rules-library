@@ -52,12 +52,11 @@ jobs:
       - name: Run Carvel-YTT
         id: carvel-ytt-template
         uses: vmware-tanzu/carvel-setup-action@v1
-        working-directory: carvel-ytt.git
       - run: |
-          ytt -f examples/playground/getting-started/example-hello-world/config.yml > example.yaml
+          ytt -f carvel-ytt.git/examples/playground/getting-started/example-hello-world/config.yml > example.yaml
       - name: Validate Carvel-YTT
         id: carvel-ytt-validation
         uses: kubevious/cli@main
         working-directory: carvel-ytt.git
         with:
-          manifests: example.yaml
+          manifests: carvel-ytt.git/example.yaml
