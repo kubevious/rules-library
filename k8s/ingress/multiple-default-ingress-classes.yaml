@@ -1,0 +1,36 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: multiple-default-ingress-classes
+spec:
+  summary: |
+    Validate IngressClasses to have at most only one default.
+  target: |
+    Api('networking.k8s.io')
+      .Kind('IngressClass')
+      .isClusterScope(true)
+  cache: |
+    cache.defaultClasses = helpers.newNameLookupDict();
+    for(const item of Api('networking.k8s.io')
+                        .Kind('IngressClass')
+                        .isClusterScope(true)
+                        .many())
+    {
+      if (item.annotations["ingressclass.kubernetes.io/is-default-class"] == "true")
+      {
+        cache.defaultClasses.add(item);
+      }
+    }
+  rule: |
+    if (item.annotations["ingressclass.kubernetes.io/is-default-class"] == "true")
+    {
+      if (cache.defaultClasses.length > 1)
+      {
+        error("There are more than one default IngressClasses");
+      }
+    }
+  application:
+    clustered: true
+  dependencies:
+    - name: kubevious
+      minVersion: 1.0.44
