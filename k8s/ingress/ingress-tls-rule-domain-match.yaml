@@ -26,8 +26,18 @@ spec:
       if (!ruleHost) {
         hasNoHostRule = true;
       } else {
-        ruleHostDict[ruleHost] = true;
-        ruleDomains.push(parseDomain(ruleHost));
+        registerRuleDomain(ruleHost);
+      }
+    }
+
+    if (item.annotations["nginx.ingress.kubernetes.io/from-to-www-redirect"] == "true")
+    {
+      for(const ruleDomain of ruleDomains)
+      {
+        if (ruleDomain.subDomain == "www")
+        {
+          registerRuleDomain(ruleDomain.domainBase);
+        }
       }
     }
 
@@ -42,12 +52,22 @@ spec:
     }
 
     // ** UTILS **
+    function registerRuleDomain(domain)
+    {
+      if (!ruleHostDict[domain])
+      {
+        ruleHostDict[domain] = true;
+        ruleDomains.push(parseDomain(domain));
+      }
+    }
+
     function parseDomain(domain)
     {
       let parts = domain.split('.');
       const sub = _.head(parts);
       parts = _.drop(parts);
       return {
+        domain: domain,
         isWildcard: (sub == '*'),
         subDomain: sub,
         domainBase: parts.join('.')
