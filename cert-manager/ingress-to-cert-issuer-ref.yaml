@@ -1,0 +1,50 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: ingress-to-cert-issuer-ref
+spec:
+  summary: |
+    Validate Ingress to CertManager Issuer reference.
+  target: |
+    Union(
+      Api('extensions')
+        .Kind('Ingress'),
+      Api('networking.k8s.io')
+        .Kind('Ingress')
+    )
+  rule: |
+    const issuerGroup = item.annotations['cert-manager.io/issuer-group'] ?? 'cert-manager.io';
+    
+    const clusterIssuerName = item.annotations['cert-manager.io/cluster-issuer']
+    if (clusterIssuerName)
+    {
+      const issuerKind = item.annotations['cert-manager.io/issuer-kind'] ?? 'ClusterIssuer';
+      const issuer = Api(issuerGroup)
+                      .Kind(issuerKind)
+                      .name(clusterIssuerName)
+                      .isClusterScope(true)
+                      .single();
+
+      if (!issuer) {
+        error(`Could not find the ${issuerKind} ${clusterIssuerName}`);
+      }
+    }
+
+    const issuerName = item.annotations['cert-manager.io/issuer']
+    if (issuerName)
+    {
+      const issuerKind = item.annotations['cert-manager.io/issuer-kind'] ?? 'Issuer';
+      const issuer = Api(issuerGroup)
+                      .Kind(issuerKind)
+                      .name(issuerName)
+                      .single();
+
+      if (!issuer) {
+        error(`Could not find the ${issuerKind} ${issuerName}`);
+      }
+    }
+
+    if (clusterIssuerName && issuerName)
+    {
+      error(`Cannot use both cert-manager.io/cluster-issuer and cert-manager.io/issuer annotations.`);
+    }

@@ -64,6 +64,10 @@ spec:
     path: k8s/ingress/ingress-service-ref.yaml
     category: k8s/ingress
     summary: Validate Ingress to Service reference.
+  - name: ingress-to-cert-issuer-ref
+    path: cert-manager/ingress-to-cert-issuer-ref.yaml
+    category: cert-manager
+    summary: Validate Ingress to CertManager Issuer reference.
   - name: istio-virtual-service-to-gateway-ref
     path: istio/virtual-service-to-gateway-ref.yaml
     category: istio

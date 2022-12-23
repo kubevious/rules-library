@@ -20,7 +20,7 @@ Kubevious rules are expressed in a domain-specific language called [Kubik](https
 Total Rules: 28
 ### Categories:
 - [📂 ARGO-ROLLOUT (1)](#-argo-rollout)
-- [📂 CERT-MANAGER (1)](#-cert-manager)
+- [📂 CERT-MANAGER (2)](#-cert-manager)
 - [📂 ISTIO (1)](#-istio)
 - [📂 K8S/CONTAINER (5)](#-k8scontainer)
 - [📂 K8S/GATEWAY-API/GATEWAY (3)](#-k8sgateway-apigateway)
@@ -39,6 +39,8 @@ Total Rules: 28
 
 #### 📂 CERT-MANAGER
 📜 **[Validate CertManager Certificate to Issuer reference.](cert-manager/certificate-to-issuer-ref.yaml)**
+
+📜 **[Validate Ingress to CertManager Issuer reference.](cert-manager/ingress-to-cert-issuer-ref.yaml)**
 
 #### 📂 ISTIO
 📜 **[Validate Istio VirtualService to IstioGateway reference.](istio/virtual-service-to-gateway-ref.yaml)**

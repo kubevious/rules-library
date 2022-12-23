@@ -16,6 +16,7 @@ spec:
     }
 
     const issuerRefKind = issuerRef.kind ?? 'Issuer';
+    const issuerGroup = issuerRef.group ?? 'cert-manager.io';
 
     const issuerRefName = config.spec?.issuerRef?.name;
     if (!issuerRefName) {
@@ -23,11 +24,11 @@ spec:
       return;
     }
 
-    const issuer = ApiVersion('cert-manager.io/v1')
+    const issuer = Api(issuerGroup)
                     .Kind(issuerRefKind)
                     .name(issuerRefName)
                     .isClusterScope(issuerRefKind.startsWith('Cluster'))
                     .single();
     if (!issuer) {
-      error(`Could not find the Certificate ${issuerRefKind} ${issuerRefName}`);
+      error(`Could not find the ${issuerRefKind} ${issuerRefName}`);
     }
