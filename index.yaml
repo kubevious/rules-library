@@ -64,6 +64,10 @@ spec:
     path: k8s/ingress/ingress-service-ref.yaml
     category: k8s/ingress
     summary: Validate Ingress to Service reference.
+  - name: ingress-tls-rule-domain-match
+    path: k8s/ingress/ingress-tls-rule-domain-match.yaml
+    category: k8s/ingress
+    summary: Validate Ingress TLS and rule domain match.
   - name: ingress-to-cert-issuer-ref
     path: cert-manager/ingress-to-cert-issuer-ref.yaml
     category: cert-manager

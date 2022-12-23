@@ -1,0 +1,90 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: ingress-tls-rule-domain-match
+spec:
+  summary: |
+    Validate Ingress TLS and rule domain match.
+  target: |
+    Union(
+      Api('networking.k8s.io')
+        .Kind('Ingress'),
+      Api('extensions')
+        .Kind('Ingress')        
+    )
+  rule: |
+    if (!config.spec?.tls) {
+      return;
+    }
+
+    let hasNoHostRule = false;
+    let ruleHostDict = {};
+    let ruleDomains = [];
+    for(const rule of config.spec?.rules ?? [])
+    {
+      const ruleHost = rule.host;
+      if (!ruleHost) {
+        hasNoHostRule = true;
+      } else {
+        ruleHostDict[ruleHost] = true;
+        ruleDomains.push(parseDomain(ruleHost));
+      }
+    }
+
+    for(const tls of config.spec?.tls ?? [])
+    {
+      for(const tlsHost of tls.hosts ?? [])
+      {
+        if (!matchesHost(tlsHost)) {
+          error(`Could not match TLS host ${tlsHost} to any of the rules.`);
+        }
+      }
+    }
+
+    // ** UTILS **
+    function parseDomain(domain)
+    {
+      let parts = domain.split('.');
+      const sub = _.head(parts);
+      parts = _.drop(parts);
+      return {
+        isWildcard: (sub == '*'),
+        subDomain: sub,
+        domainBase: parts.join('.')
+      }
+    }
+
+    function matchesHost(domain)
+    {
+      if (hasNoHostRule) {
+        return true;
+      }
+
+      if (ruleHostDict[domain]) {
+        return true;
+      }
+
+      let tlsDomain = parseDomain(domain);
+      if (tlsDomain.isWildcard)
+      {
+        for(const ruleDomain of ruleDomains)
+        {
+          if (ruleDomain.domainBase == tlsDomain.domainBase)
+          {
+            return true;
+          }
+        }
+      }
+      else
+      {
+        for(const ruleDomain of ruleDomains)
+        {
+          if (ruleDomain.isWildcard && (ruleDomain.domainBase == tlsDomain.domainBase))
+          {
+            return true;
+          }
+        }
+      }
+      
+      return false;
+    }

@@ -178,3 +178,11 @@ steps:
         working_directory: ${{DEMOS_REPO_PATH}}/guard/02-voter-app
         commands:
           - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml voter-chart
+
+      validate_ingresses:
+        title: Validate Ingresses
+        stage: test
+        image: 'kubevious/cli:latest'
+        working_directory: ${{DEMOS_REPO_PATH}}/guard/11-ingresses
+        commands:
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml .
