@@ -5,6 +5,11 @@ metadata:
 spec:
   summary: |
     Validate Ingress to CertManager Issuer reference.
+  categories:
+    - cert-manager
+    - ingress
+    - issuer
+    - reference
   target: |
     Union(
       Api('extensions')

@@ -7,6 +7,12 @@ spec:
     Validate ContainerSpec envFrom variables projection ConfigMap reference.
   target: |
     Shortcut("ContainerSpec")
+  categories:
+    - k8s
+    - container
+    - environment-variable
+    - config-map
+    - reference
   rule: |
     for(const envFrom of config.spec?.envFrom ?? [])
     {

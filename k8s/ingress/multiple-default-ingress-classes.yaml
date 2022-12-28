@@ -5,6 +5,10 @@ metadata:
 spec:
   summary: |
     Validate IngressClasses to have at most only one default.
+  categories:
+    - k8s
+    - ingress-class
+    - unique-default
   target: |
     Api('networking.k8s.io')
       .Kind('IngressClass')

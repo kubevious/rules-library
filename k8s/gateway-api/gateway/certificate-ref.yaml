@@ -8,6 +8,12 @@ spec:
   target: |
     Api('gateway.networking.k8s.io')
       .Kind('Gateway')
+  categories:
+    - k8s
+    - gateway-api
+    - gateway
+    - certificate
+    - reference     
   rule: |
     for(const listener of config.spec?.listeners ?? [])
     {

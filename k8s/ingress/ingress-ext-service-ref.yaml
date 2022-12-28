@@ -5,6 +5,12 @@ metadata:
 spec:
   summary: |
     Validate Ingress (extension) to Service reference.
+  categories:
+    - k8s
+    - ingress
+    - ingress-extension
+    - service
+    - reference
   target: |
     Api('extensions')
       .Kind('Ingress')

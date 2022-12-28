@@ -1,0 +1,109 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: ingress-unique-route-rules
+spec:
+  summary: |
+    Validate Ingresses to have unique routing rules.
+  categories:
+    - k8s
+    - ingress
+    - ingress-extension
+    - unique-route
+  target: |
+    Union(
+      Api('networking.k8s.io')
+        .Kind('Ingress'),
+      Api('extensions')
+        .Kind('Ingress')
+    )
+  globalCache: |
+    cache.rules = {};
+    cache.manifests = {};
+
+    const defaultIngressClassName = getDefaultIngressClassName();
+    for(const item of Union(
+                        Api('networking.k8s.io')
+                          .Kind('Ingress')
+                          .allNamespaces(),
+                        Api('extensions')
+                          .Kind('Ingress')
+                          .allNamespaces()
+                      ).many())
+    {
+      for(const rule of item.config.spec?.rules ?? [])
+      {
+        for(const path of rule?.http?.paths ?? [])
+        {
+          const ingressClass = item.config.spec?.ingressClassName ?? 
+                               item.annotations['kubernetes.io/ingress.class'] ??
+                               defaultIngressClassName;
+          register(item, {
+                           ingressClass: ingressClass,
+                           host: rule.host, 
+                           path: path.path, 
+                           pathType: path.pathType, 
+                         },
+                         [
+                          'zalando.org/skipper-predicate'
+                         ]);
+        }
+      }
+    }
+
+    // HELPERS
+    function register(item, info, annoKeys)
+    {
+      if (!cache.manifests[item.manifest.idKey]) {
+        cache.manifests[item.manifest.idKey] = [];
+      }
+
+      for(const annoKey of (annoKeys ?? []))
+      {
+        const annoVal = item.annotations[annoKey];
+        if (annoKey !== undefined)
+        {
+          info[annoKey] = annoVal;
+        }
+      }
+
+      const key = _.stableStringify(info);
+
+      cache.manifests[item.manifest.idKey].push(key);
+
+      if (!cache.rules[key]) {
+        cache.rules[key] = [];
+      }
+      cache.rules[key].push(item.manifest.idKey); // [item.manifest.idKey] = true;
+    }
+
+    function getDefaultIngressClassName()
+    {
+      for(const item of Api('networking.k8s.io')
+                          .Kind('IngressClass')
+                          .isClusterScope(true)
+                          .many())
+      {
+        if (item.annotations["ingressclass.kubernetes.io/is-default-class"] == "true")
+        {
+          return item.name;
+        }
+      }
+      return "";
+    }
+
+  rule: |
+    const myRules = globalCache.manifests[item.manifest.idKey];
+
+    for(const ruleKey of myRules ?? [])
+    {
+      const others = globalCache.rules[ruleKey];
+      if (others.length > 1)
+      {
+        error(`Duplicate Ingress rule found. ${ruleKey}`);
+      }
+    }
+
+  dependencies:
+    - name: kubevious
+      minVersion: 1.0.46    

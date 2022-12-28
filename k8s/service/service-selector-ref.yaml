@@ -5,6 +5,11 @@ metadata:
 spec:
   summary: |
     Validate Service to PodSpec label selector reference.
+  categories:
+    - k8s
+    - service
+    - pod-spec
+    - reference
   target: |
     ApiVersion('v1')
       .Kind('Service')

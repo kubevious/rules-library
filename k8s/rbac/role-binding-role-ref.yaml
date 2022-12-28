@@ -5,6 +5,12 @@ metadata:
 spec:
   summary: |
     Validate RoleBinding and ClusterRoleBinding to Role and ClusterRole reference.
+  categories:
+    - k8s
+    - rbac
+    - binding
+    - role
+    - reference
   target: |
     Union(
       Api('rbac.authorization.k8s.io')

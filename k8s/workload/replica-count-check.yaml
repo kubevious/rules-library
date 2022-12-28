@@ -5,6 +5,10 @@ metadata:
 spec:
   summary: |
     Checks Deployments to have min/max replicas - with or without HPAs.
+  categories:
+    - k8s
+    - deployment
+    - replica-count
   values:
     minReplicas: 1
     maxReplicas: 1000

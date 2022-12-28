@@ -8,6 +8,11 @@ spec:
   target: |
     Api('gateway.networking.k8s.io')
       .Kind('Gateway')
+  categories:
+    - k8s
+    - gateway-api
+    - gateway
+    - unique-listeners    
   rule: |
     const duplicates = helpers.findDuplicates(config.spec?.listeners, x => x.name);
     if (duplicates.length > 0)
