@@ -56,40 +56,26 @@ steps:
       - cd ${{DEMOS_REPO_PATH}}
       - ls -la
 
-
-  prepare_istio:
-    title: Prepare Istio Charts
-    stage: prepare
-    image: kubevious/cicd_deployer:latest
-    working_directory: ${{SAMPLES_PATH}}
-    commands:
-      - ls -la
-      - rm -rf istio
-      - mkdir istio
-      - |
-        cat >istio/secret-gateway-api-admission.yaml <<EOL
-        apiVersion: v1
-        kind: Secret
-        metadata:
-          name: gateway-api-admission
-          namespace: gateway-system
-        EOL
-
-  validate_argo_rollout_sample:
-    title: Validate Argo Rollout Sample
-    stage: test
-    image: 'kubevious/cli:latest'
-    working_directory: ${{DEMOS_REPO_PATH}}
-    commands:
-      - kubevious --version
-      - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/crds/argo-rollouts/crds.yaml ${{DEMOS_REPO_PATH}}/guard/40-argo-rollout
-
+    output_info:
+      title: Output Info
+      stage: prepare
+      image: 'kubevious/cli:latest'
+      commands:
+        - kubevious --version
 
   # TESTS
   parallel_tests:
     type: parallel
     stage: test
     steps:
+
+      validate_argo_rollout_sample:
+        title: Validate Argo Rollout Sample
+        image: 'kubevious/cli:latest'
+        working_directory: ${{DEMOS_REPO_PATH}}
+        commands:
+          - kubevious --version
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml ${{DEMOS_REPO_PATH}}/crds/argo-rollouts/crds.yaml ${{DEMOS_REPO_PATH}}/guard/40-argo-rollout
 
       validate_traefik_chart:
         title: Validate Traefik Chart
@@ -123,6 +109,8 @@ steps:
           - helm template grafana/grafana --namespace grafana --set persistence.enabled=true > grafana.yaml
           - kubevious lint grafana.yaml
           - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml grafana.yaml
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml @helm@grafana/grafana@namespace=grafana@set=persistence.enabled=true
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml @helm@grafana/grafana@namespace=grafana@set=persistence.enabled=false
 
       validate_kubeflow:
         title: Validate Kubeflow
