@@ -106,4 +106,4 @@ spec:
 
   dependencies:
     - name: kubevious
-      minVersion: 1.0.46    
+      minVersion: 1.0.49
