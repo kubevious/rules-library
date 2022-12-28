@@ -8,6 +8,11 @@ spec:
   target: |
     Api('argoproj.io')
       .Kind('Rollout')
+  categories:
+    - argo
+    - rollout
+    - analysis
+    - reference
   rule: |
     for (const canaryStep of config.spec?.strategy?.canary?.steps ?? {})
     {

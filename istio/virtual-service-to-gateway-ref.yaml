@@ -5,6 +5,11 @@ metadata:
 spec:
   summary: |
     Validate Istio VirtualService to IstioGateway reference.
+  categories:
+    - istio
+    - virtual-service
+    - istio-gateway
+    - reference 
   target: |
     Api('networking.istio.io')
       .Kind('VirtualService')

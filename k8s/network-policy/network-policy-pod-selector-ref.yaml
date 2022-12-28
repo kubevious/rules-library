@@ -5,6 +5,11 @@ metadata:
 spec:
   summary: |
     Validate NetworkPolicy to PodSpec reference.
+  categories:
+    - k8s
+    - network-policy
+    - pod-spec
+    - reference
   target: |
     ApiVersion('networking.k8s.io/v1')
       .Kind('NetworkPolicy')

@@ -5,6 +5,11 @@ metadata:
 spec:
   summary: |
     Validate Ingresses to have unique routing rules.
+  categories:
+    - k8s
+    - ingress
+    - ingress-extension
+    - unique-route
   target: |
     Union(
       Api('networking.k8s.io')

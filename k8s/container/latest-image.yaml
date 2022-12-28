@@ -7,6 +7,11 @@ spec:
     Validate ContainerSpec image to have non latest tag.
   target: |
     Shortcut("ContainerSpec")
+  categories:
+    - k8s
+    - container
+    - image
+    - latest
   rule: |
     if (helpers.parseImage(config.spec.image).tag === 'latest') {
       error(`Latest Image Tags not allowed: ${config.spec.image}`);

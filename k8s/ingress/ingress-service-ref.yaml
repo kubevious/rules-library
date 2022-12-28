@@ -5,6 +5,11 @@ metadata:
 spec:
   summary: |
     Validate Ingress to Service reference.
+  categories:
+    - k8s
+    - ingress
+    - service
+    - reference    
   target: |
     Api('networking.k8s.io')
       .Kind('Ingress')

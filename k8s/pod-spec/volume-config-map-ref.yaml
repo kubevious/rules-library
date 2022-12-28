@@ -7,6 +7,12 @@ spec:
     Validate PodSpec volume mount ConfigMap reference.
   target: |
     Shortcut("PodSpec")
+  categories:
+    - k8s
+    - pod-spec
+    - config-map
+    - volume
+    - reference
   rule: |
     for(const volume of config.spec?.volumes ?? [])
     {

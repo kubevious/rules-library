@@ -5,12 +5,18 @@ metadata:
 spec:
   summary: |
     Validate Ingress TLS and rule domain match.
+  categories:
+    - k8s
+    - ingress
+    - ingress-extension
+    - tls
+    - domain
   target: |
     Union(
       Api('networking.k8s.io')
         .Kind('Ingress'),
       Api('extensions')
-        .Kind('Ingress')        
+        .Kind('Ingress')
     )
   rule: |
     if (!config.spec?.tls) {

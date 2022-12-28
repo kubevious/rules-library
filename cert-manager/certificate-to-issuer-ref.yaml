@@ -5,6 +5,11 @@ metadata:
 spec:
   summary: |
     Validate CertManager Certificate to Issuer reference.
+  categories:
+    - cert-manager
+    - certificate
+    - issuer
+    - reference
   target: |
     Api('cert-manager.io')
       .Kind('Certificate')

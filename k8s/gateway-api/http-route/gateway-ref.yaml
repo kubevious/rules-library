@@ -8,6 +8,12 @@ spec:
   target: |
     Api('gateway.networking.k8s.io')
       .Kind('HTTPRoute')
+  categories:
+    - k8s
+    - gateway-api
+    - http-route
+    - gateway
+    - reference
   rule: |
     for(const gatewayRef of config.spec?.parentRefs ?? [])
     {

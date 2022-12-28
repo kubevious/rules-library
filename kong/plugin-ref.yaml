@@ -5,6 +5,12 @@ metadata:
 spec:
   summary: |
     Validate Ingress and Service to Kong Plugin reference
+  categories:
+    - kong
+    - ingress
+    - service
+    - plugin
+    - reference    
   target: |
     Union(
       Api('')

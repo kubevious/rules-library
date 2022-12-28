@@ -7,6 +7,12 @@ spec:
     Validate ContainerSpec environment variable ConfigMap reference.
   target: |
     Shortcut("ContainerSpec")
+  categories:
+    - k8s
+    - container
+    - environment-variable
+    - config-map
+    - reference
   rule: |
     for(const env of config.spec?.env ?? [])
     {

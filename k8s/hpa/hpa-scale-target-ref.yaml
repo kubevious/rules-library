@@ -5,6 +5,11 @@ metadata:
 spec:
   summary: |
     Validate HorizontalPodAutoscaler to scale target reference.
+  categories:
+    - k8s
+    - hpa
+    - target
+    - reference
   target: |
     Api('autoscaling')
       .Kind('HorizontalPodAutoscaler')
