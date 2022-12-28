@@ -17,7 +17,7 @@ Kubevious rules are expressed in a domain-specific language called [Kubik](https
 [//]: # "OR PRE-COMMIT HOOK"
 [//]: # "$ kubevious install-git-hook rule-library ."
 
-Total Rules: 30
+Total Rules: 31
 ### Categories:
 - [📂 ARGO-ROLLOUT (1)](#-argo-rollout)
 - [📂 CERT-MANAGER (2)](#-cert-manager)
@@ -26,7 +26,7 @@ Total Rules: 30
 - [📂 K8S/GATEWAY-API/GATEWAY (3)](#-k8sgateway-apigateway)
 - [📂 K8S/GATEWAY-API/HTTP-ROUTE (2)](#-k8sgateway-apihttp-route)
 - [📂 K8S/HPA (1)](#-k8shpa)
-- [📂 K8S/INGRESS (4)](#-k8singress)
+- [📂 K8S/INGRESS (5)](#-k8singress)
 - [📂 K8S/NETWORK-POLICY (1)](#-k8snetwork-policy)
 - [📂 K8S/POD-SPEC (4)](#-k8spod-spec)
 - [📂 K8S/RBAC (2)](#-k8srbac)
@@ -77,6 +77,8 @@ Total Rules: 30
 📜 **[Validate Ingress to Service reference.](k8s/ingress/ingress-service-ref.yaml)**
 
 📜 **[Validate Ingress TLS and rule domain match.](k8s/ingress/ingress-tls-rule-domain-match.yaml)**
+
+📜 **[Validate Ingresses to have unique routing rules.](k8s/ingress/ingress-unique-route-rules.yaml)**
 
 📜 **[Validate IngressClasses to have at most only one default.](k8s/ingress/multiple-default-ingress-classes.yaml)**
 

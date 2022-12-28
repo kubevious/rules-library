@@ -12,15 +12,15 @@ spec:
     if (config.spec?.defaultBackend) {
       validateBackend(config.spec?.defaultBackend, 'default backend');
     }
-    for(const rule of config.spec?.rules ?? [])
+    for(const [ruleIndex, rule] of (config.spec?.rules ?? []).entries())
     {
       if (rule.http)
       {
-        for(const path of rule.http.paths ?? [])
+        for(const [pathIndex, path] of (rule.http.paths ?? []).entries())
         {
           if (path.backend)
           {
-            validateBackend(path.backend, `path ${path.path}`);
+            validateBackend(path.backend, `rule [${ruleIndex}], path [${pathIndex}]`);
           }
         }
       }
@@ -43,7 +43,7 @@ spec:
                                 .single();
           if (!serviceItem)
           {
-            error(`Could not find Service ${serviceName} referenced in ${backendName}.`);
+            error(`Could not find Service ${serviceName} referenced in ${backendName}`);
           }
           else
           {
@@ -65,7 +65,7 @@ spec:
                   }
                   if (!ports[servicePort.name])
                   {
-                    error(`Could not find Port ${servicePort.name} in Service ${serviceName} referenced in ${backendName}.`);
+                    error(`Could not find Port ${servicePort.name} in Service ${serviceName} referenced in ${backendName}`);
                   }
                 }
               }
@@ -80,7 +80,7 @@ spec:
                   }
                   if (!ports[servicePort.number])
                   {
-                    error(`Could not find Port ${servicePort.number} in Service ${serviceName} referenced in ${backendName}.`);
+                    error(`Could not find Port ${servicePort.number} in Service ${serviceName} referenced in ${backendName}`);
                   }
                 }
                 else
