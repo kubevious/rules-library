@@ -16,6 +16,11 @@ spec:
   rule: |
     for(let gatewayTarget of (config.spec?.gateways || []))
     {
+      if (gatewayTarget === 'mesh')
+      {
+        continue;
+      }
+
       let gatewayNaming = gatewayTarget.split('/');
       if (gatewayNaming.length == 2) {
         let gatewayItem = 
