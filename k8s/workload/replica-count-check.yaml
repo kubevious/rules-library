@@ -13,8 +13,12 @@ spec:
     minReplicas: 1
     maxReplicas: 1000
   target: |
-    ApiVersion('apps/v1')
-    .Kind('Deployment')
+    Union(
+      Api('apps')
+        .Kind('Deployment'),
+      Api('argoproj.io')
+        .Kind('Rollout')
+    )
   rule: |
     const hpa = findHPA();
     if (hpa)
