@@ -3,6 +3,7 @@ kind: ClusterRule
 metadata:
   name: container-volume-mount-ref
 spec:
+  disabled: true
   summary: |
     Validate ContainerSpec volume mount to PodSpec volume reference.
   target: |
@@ -32,5 +33,17 @@ spec:
           return;
         }
       }
+      for(const volumeClaim of (config.controllerConfig.volumeClaimTemplates ?? []))
+      {
+        const name = volumeClaim.metadata?.name;
+        if (volumeName === name)
+        {
+          return;
+        }
+      }
       error(`Could not find Volume ${volumeName} referenced in container ${config.spec?.name}`);
     }
+
+  dependencies:
+    - name: kubevious
+      minVersion: 1.0.53
