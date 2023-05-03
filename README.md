@@ -17,12 +17,12 @@ Kubevious rules are expressed in a domain-specific language called [Kubik](https
 [//]: # "OR PRE-COMMIT HOOK"
 [//]: # "$ kubevious install-git-hook rule-library ."
 
-Total Rules: 31
+Total Rules: 32
 ### Locations:
 - [📂 ARGO-ROLLOUT (1)](#-argo-rollout)
 - [📂 CERT-MANAGER (2)](#-cert-manager)
 - [📂 ISTIO (1)](#-istio)
-- [📂 K8S/CONTAINER (5)](#-k8scontainer)
+- [📂 K8S/CONTAINER (6)](#-k8scontainer)
 - [📂 K8S/GATEWAY-API/GATEWAY (3)](#-k8sgateway-apigateway)
 - [📂 K8S/GATEWAY-API/HTTP-ROUTE (2)](#-k8sgateway-apihttp-route)
 - [📂 K8S/HPA (1)](#-k8shpa)
@@ -64,6 +64,9 @@ Total Rules: 31
 
 📜 **[Validate ContainerSpec image to have non latest tag.](k8s/container/latest-image.yaml)**
 - 🏷️ k8s 🏷️ container 🏷️ image 🏷️ latest
+
+📜 **[Validate ContainerSpec volume mount to PodSpec volume reference.](k8s/container/volume-mount-ref.yaml)**
+- 🏷️ k8s 🏷️ container 🏷️ volume 🏷️ volume-mount 🏷️ reference
 
 #### 📂 K8S/GATEWAY-API/GATEWAY
 📜 **[Validate Gateway to Certificate Secret reference.](k8s/gateway-api/gateway/certificate-ref.yaml)**

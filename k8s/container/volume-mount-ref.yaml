@@ -1,0 +1,36 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: container-volume-mount-ref
+spec:
+  summary: |
+    Validate ContainerSpec volume mount to PodSpec volume reference.
+  target: |
+    Shortcut("ContainerSpec")
+  categories:
+    - k8s
+    - container
+    - volume
+    - volume-mount
+    - reference
+  rule: |
+    for(const volumeMount of config.spec?.volumeMounts ?? [])
+    {
+      if (!volumeMount.name) {
+        error(`Volume name not set in container ${config.spec?.name}`);
+      } else {
+        checkVolumeMount(volumeMount.name);
+      }
+    }
+
+    function checkVolumeMount(volumeName)
+    {
+      for(const volume of (config.podSpec.volumes ?? []))
+      {
+        if (volume.name === volumeName)
+        {
+          return;
+        }
+      }
+      error(`Could not find Volume ${volumeName} referenced in container ${config.spec?.name}`);
+    }

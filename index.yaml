@@ -71,6 +71,16 @@ spec:
     - container
     - image
     - latest
+  - name: container-volume-mount-ref
+    path: k8s/container/volume-mount-ref.yaml
+    location: k8s/container
+    summary: Validate ContainerSpec volume mount to PodSpec volume reference.
+    categories:
+    - k8s
+    - container
+    - volume
+    - volume-mount
+    - reference
   - name: gateway-certificate-secret-ref
     path: k8s/gateway-api/gateway/certificate-ref.yaml
     location: k8s/gateway-api/gateway
