@@ -1,0 +1,137 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: container-resource-request-limit-check
+spec:
+  summary: |
+    Validate ContainerSpec resource requests to be less or equal to the limits.
+  target: |
+    Shortcut("ContainerSpec")
+  categories:
+    - k8s
+    - container
+    - resources
+    - cpu
+    - memory
+    - request
+    - limit
+  rule: |
+
+    const METRICS = [
+      ["cpu", parseCPU],
+      ["memory", parseMemory]
+    ];
+
+    let requests = config.spec?.resources?.requests;
+    let limits = config.spec?.resources?.limits;
+    if (requests && limits)
+    {
+      for(const metricInfo of METRICS)
+      {
+        const metricName = metricInfo[0];
+        const metricParser = metricInfo[1];
+
+        var request = requests[metricName];
+        var requestValue = metricParser(request);
+        if (requestValue.isPresent && !requestValue.isValid) {
+          error(`Invalid ${metricName} request specified: ${request}`);
+        }
+
+        var limit = limits[metricName];
+        var limitValue = metricParser(limit);
+        if (limitValue.isPresent && !limitValue.isValid) {
+          error(`Invalid ${metricName} limit specified: ${limit}`);
+        }
+
+        if (requestValue.isPresent && requestValue.isValid && 
+            limitValue.isPresent && limitValue.isValid)
+        {
+          if (requestValue.value > limitValue.value)
+          {
+            error(`The ${metricName} request should be less or equal to limit. Request: ${request}. Limit: ${limit}.`);
+          }
+        }
+      }
+    }
+
+
+    /*** PARSER FUNCTIONS ***/
+    function parseCPU(value)
+    {
+      if (value === undefined || value === null) {
+        return { isPresent: false };
+      }
+      if (typeof value === 'number') {
+        return { isPresent: true, isValid: true, value: value };
+      }
+      if (value.endsWith('m')) {
+        value = parseFloat(value) / 1000;
+      } else {
+        value = parseFloat(value);
+      }
+      return { isPresent: true, isValid: true, value: value };
+    }
+
+    function parseMemory(value)
+    {
+      if (value === undefined || value === null) {
+        return { isPresent: false };
+      }
+      if (typeof value === 'number') {
+        return { isPresent: true, isValid: true, value: value };
+      }
+      const regex = /^(\d+(?:\.\d+)?)([\w]*?)$/;
+      const matches = value.match(regex);
+
+      if (matches)
+      {
+        let bytes = parseFloat(matches[1]);
+        const suffix = matches[2];
+
+        switch(suffix)
+        {
+          case "k":
+            bytes *= Math.pow(1000, 1);
+            break;
+          case "M":
+            bytes *= Math.pow(1000, 2);
+            break;
+          case "G":
+            bytes *= Math.pow(1000, 3);
+            break;
+          case "T":
+            bytes *= Math.pow(1000, 4);
+            break;
+          case "P":
+            bytes *= Math.pow(1000, 5);
+            break;
+          case "E":
+            bytes *= Math.pow(1000, 6);
+            break;
+          case "Ki":
+            bytes *= Math.pow(1024, 1);
+            break;
+          case "Mi":
+            bytes *= Math.pow(1024, 2);
+            break;
+          case "Gi":
+            bytes *= Math.pow(1024, 3);
+            break;
+          case "Ti":
+            bytes *= Math.pow(1024, 4);
+            break;
+          case "Pi":
+            bytes *= Math.pow(1024, 5);
+            break;
+          case "Ei":
+            bytes *= Math.pow(1024, 6);
+            break;
+          default:
+            return { isPresent: true, isValid: false };
+        }
+
+        return { isPresent: true, isValid: true, value: bytes };
+      }
+
+      return { isPresent: true, isValid: false };
+    }

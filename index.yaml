@@ -71,6 +71,18 @@ spec:
     - container
     - image
     - latest
+  - name: container-resource-request-limit-check
+    path: k8s/container/resource-request-limit-check.yaml
+    location: k8s/container
+    summary: Validate ContainerSpec resource requests to be less or equal to the limits.
+    categories:
+    - k8s
+    - container
+    - resources
+    - cpu
+    - memory
+    - request
+    - limit
   - name: container-volume-mount-ref
     path: k8s/container/volume-mount-ref.yaml
     location: k8s/container
