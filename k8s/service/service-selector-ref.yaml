@@ -35,6 +35,7 @@ spec:
       for(const app of apps)
       {
         const appPortMap = {};
+
         for(const container of app?.config.spec?.containers ?? [])
         {
           for(const port of container.ports ?? [])
@@ -44,20 +45,20 @@ spec:
               appPortMap[port.name] = true;
             }
           }
+        }
 
-          for(const servicePort of config.spec?.ports ?? [])
+        for(const servicePort of config.spec?.ports ?? [])
+        {
+          if (!servicePort.port)
           {
-            if (!servicePort.port)
+            error('Service port is not set');
+          }
+          else
+          {
+            const targetPort = servicePort.targetPort ?? servicePort.port;
+            if (!appPortMap[targetPort])
             {
-              error('Service port is not set');
-            }
-            else
-            {
-              const targetPort = servicePort.targetPort ?? servicePort.port;
-              if (!appPortMap[targetPort])
-              {
-                warning(`Could not find exposed port ${targetPort} in ${app.name}`);
-              }
+              warning(`Could not find exposed port ${targetPort} in ${app.name}`);
             }
           }
         }
