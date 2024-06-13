@@ -17,10 +17,11 @@ Kubevious rules are expressed in a domain-specific language called [Kubik](https
 [//]: # "OR PRE-COMMIT HOOK"
 [//]: # "$ kubevious install-git-hook rule-library ."
 
-Total Rules: 33
+Total Rules: 36
 ### Locations:
 - [📂 ARGO-ROLLOUT (1)](#-argo-rollout)
 - [📂 CERT-MANAGER (2)](#-cert-manager)
+- [📂 GCP-CONFIG-CONNECTOR/SQL (3)](#-gcp-config-connectorsql)
 - [📂 ISTIO (1)](#-istio)
 - [📂 K8S/CONTAINER (7)](#-k8scontainer)
 - [📂 K8S/GATEWAY-API/GATEWAY (3)](#-k8sgateway-apigateway)
@@ -44,6 +45,16 @@ Total Rules: 33
 
 📜 **[Validate Ingress to CertManager Issuer reference.](cert-manager/ingress-to-cert-issuer-ref.yaml)**
 - 🏷️ cert-manager 🏷️ ingress 🏷️ issuer 🏷️ reference
+
+#### 📂 GCP-CONFIG-CONNECTOR/SQL
+📜 **[Validate GCP Config Connector SQL Database to Instance reference.](gcp-config-connector/sql/sql-database-to-instance-ref.yaml)**
+- 🏷️ gcp-config-connector 🏷️ sql-database 🏷️ sql-instance 🏷️ reference
+
+📜 **[Validate GCP Config Connector SQL User to Instance reference.](gcp-config-connector/sql/sql-user-to-instance-ref.yaml)**
+- 🏷️ gcp-config-connector 🏷️ sql-user 🏷️ sql-instance 🏷️ reference
+
+📜 **[Validate GCP Config Connector SQL User to Password Secret reference.](gcp-config-connector/sql/sql-user-to-password-secret-ref.yaml)**
+- 🏷️ gcp-config-connector 🏷️ sql-user 🏷️ secret 🏷️ reference
 
 #### 📂 ISTIO
 📜 **[Validate Istio VirtualService to IstioGateway reference.](istio/virtual-service-to-gateway-ref.yaml)**

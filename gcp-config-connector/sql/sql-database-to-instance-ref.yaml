@@ -1,0 +1,30 @@
+apiVersion: kubevious.io/v1alpha1
+kind: ClusterRule
+metadata:
+  name: gcp-config-connector-sql-database-to-instance-ref
+spec:
+  summary: |
+    Validate GCP Config Connector SQL Database to Instance reference.
+  categories:
+    - gcp-config-connector
+    - sql-database
+    - sql-instance
+    - reference 
+  target: |
+    Api('sql.cnrm.cloud.google.com')
+      .Kind('SQLDatabase')
+  rule: |
+    let sqlInstanceName = config.spec?.instanceRef?.name
+    if (sqlInstanceName)
+    {
+      let sqlInstanceItem = 
+          Api('sql.cnrm.cloud.google.com')
+              .Kind('SQLInstance')
+              .name(sqlInstanceName)
+              .single();
+      if (!sqlInstanceItem)
+      {
+        error(`Did not find SQLInstance ${sqlInstanceName}`);
+      }              
+    }
+  

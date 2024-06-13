@@ -174,3 +174,11 @@ steps:
         working_directory: ${{DEMOS_REPO_PATH}}/guard/11-ingresses
         commands:
           - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml .  --k8s-version 1.20
+
+      validate_gcp_config_connector_sql:
+        title: Validate GCP Config Connector SQL
+        stage: test
+        image: 'kubevious/cli:latest'
+        working_directory: ${{DEMOS_REPO_PATH}}/guard/60-gcp-config-connector/sql
+        commands:
+          - kubevious guard --skip-community-rules ${{MAIN_REPO_PATH}}/index.yaml . ${{DEMOS_REPO_PATH}}/crds/gcp-config-connector/sql ${{DEMOS_REPO_PATH}}/crds/sealed-secrets --k8s-version 1.25
