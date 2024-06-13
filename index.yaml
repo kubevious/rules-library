@@ -122,6 +122,33 @@ spec:
     - gateway-api
     - gateway
     - unique-listeners
+  - name: gcp-config-connector-sql-database-to-instance-ref
+    path: gcp-config-connector/sql/sql-database-to-instance-ref.yaml
+    location: gcp-config-connector/sql
+    summary: Validate GCP Config Connector SQL Database to Instance reference.
+    categories:
+    - gcp-config-connector
+    - sql-database
+    - sql-instance
+    - reference
+  - name: gcp-config-connector-sql-user-to-instance-ref
+    path: gcp-config-connector/sql/sql-user-to-instance-ref.yaml
+    location: gcp-config-connector/sql
+    summary: Validate GCP Config Connector SQL User to Instance reference.
+    categories:
+    - gcp-config-connector
+    - sql-user
+    - sql-instance
+    - reference
+  - name: gcp-config-connector-sql-user-to-password-secret-ref
+    path: gcp-config-connector/sql/sql-user-to-password-secret-ref.yaml
+    location: gcp-config-connector/sql
+    summary: Validate GCP Config Connector SQL User to Password Secret reference.
+    categories:
+    - gcp-config-connector
+    - sql-user
+    - secret
+    - reference
   - name: hpa-scale-target-ref
     path: k8s/hpa/hpa-scale-target-ref.yaml
     location: k8s/hpa
